@@ -1,0 +1,56 @@
+.customChessTable {
+  border-radius: 1rem;
+  font-size: 2rem;
+}
+
+@media (max-width: 1200px) {
+  .customChessTable {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .customChessTable {
+    font-size: 1.2rem;
+  }
+}
+
+.customChessTableLight {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.customChessTableDark {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.homeTeam {
+  font-weight: 900;
+  font-size: 2.5rem;
+}
+
+@media (max-width: 1200px) {
+  .homeTeam {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .homeTeam {
+    font-size: 1.5rem;
+  }
+}
+
+.customChessTable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customChessTable th,
+.customChessTable td {
+  border: 1px solid #ccc;
+  padding: 0.5em 0.75em;
+}
+
+.customChessTable th {
+  font-weight: bold;
+}
