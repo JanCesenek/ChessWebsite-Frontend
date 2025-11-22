@@ -21,7 +21,7 @@ const Article = ({ title, owner, time, open, announcement }) => {
         <div className="flex flex-col font-['Roboto_Mono',monospace] text-[3rem] p-10">
           <p>Příští živý přenos domácího utkání:</p>
           <p>23/11 od 10:05</p>
-          <p className="self-center mt-5 animate-pulse text-[4rem]">
+          <p className="self-center mt-5 animate-pulse text-[4rem] underline">
             <a href="https://lichess.org" target="_blank" rel="noopener noreferrer">
               Odkaz zde
             </a>

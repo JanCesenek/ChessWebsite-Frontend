@@ -14,7 +14,6 @@ const Table = () => {
   const tableRef1 = useRef(null);
   const tableRef2 = useRef(null);
   const tableRef3 = useRef(null);
-  const broadcastRef = useRef(null);
 
   useEffect(() => {
     api
@@ -30,11 +29,6 @@ const Table = () => {
     api
       .get("api/chess-table-3")
       .then((res) => setTableHTML3(res.data))
-      .catch(console.error);
-
-    api
-      .get("api/broadcast")
-      .then((res) => setBroadcastHTML(res.data))
       .catch(console.error);
   }, []);
 
