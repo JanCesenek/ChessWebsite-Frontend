@@ -110,6 +110,11 @@ const Articles = () => {
 
   return (
     <div className={`flex flex-col items-center ${submitting && "pointer-events-none opacity-70"}`}>
+      {!addArticle && (
+        <div className="flex flex-col items-center w-full my-10">
+          <Article announcement />
+        </div>
+      )}
       {userData && (
         <Button
           msg={addArticle ? "Zavřít editor" : "Přidat článek"}
@@ -202,7 +207,7 @@ const Articles = () => {
               back={() => setDetail(false)}
             />
           </div>
-        ) : (
+        ) : aData?.length > 0 ? (
           <div className="flex flex-col items-center w-full [&>*]:my-10">
             {aData?.map((el) => {
               const ownerFind = uData?.find((user) => user.id === el.userID);
@@ -227,6 +232,10 @@ const Articles = () => {
                 />
               );
             })}
+          </div>
+        ) : (
+          <div className="flex justify-center items-center text-[3rem] font-['Roboto_Mono',monospace] my-20">
+            <p>Žádné články k zobrazení. Obsah bude brzy doplněn!</p>
           </div>
         ))}
     </div>

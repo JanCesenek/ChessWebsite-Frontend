@@ -9,10 +9,12 @@ const Table = () => {
   const [tableHTML1, setTableHTML1] = useState(null);
   const [tableHTML2, setTableHTML2] = useState(null);
   const [tableHTML3, setTableHTML3] = useState(null);
+  const [broadcastHTML, setBroadcastHTML] = useState(null);
 
   const tableRef1 = useRef(null);
   const tableRef2 = useRef(null);
   const tableRef3 = useRef(null);
+  const broadcastRef = useRef(null);
 
   useEffect(() => {
     api
@@ -28,6 +30,11 @@ const Table = () => {
     api
       .get("api/chess-table-3")
       .then((res) => setTableHTML3(res.data))
+      .catch(console.error);
+
+    api
+      .get("api/broadcast")
+      .then((res) => setBroadcastHTML(res.data))
       .catch(console.error);
   }, []);
 
@@ -128,6 +135,7 @@ const Table = () => {
           )}
         </div>
       </div>
+      <div dangerouslySetInnerHTML={{ __html: broadcastHTML }} />
     </div>
   );
 };
