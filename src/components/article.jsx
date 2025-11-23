@@ -22,7 +22,10 @@ const Article = ({ title, owner, time, open, announcement }) => {
           <p>Příští živý přenos domácího utkání:</p>
           <p>23/11 od 10:05</p>
           <p className="self-center mt-5 animate-pulse text-[4rem] underline">
-            <a href="https://lichess.org" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://lichess.org/broadcast/chrudim-svitavy/round-1/a5v09Nkf#boards"
+              target="_blank"
+              rel="noopener noreferrer">
               Odkaz zde
             </a>
           </p>
