@@ -205,7 +205,7 @@ const ChessboardPreview = ({ moves, white, black, result, defaultMove = 0 }) => 
               <span className="font-bold mr-2">{idx + 1}.</span>
               {/* White move */}
               <button
-                className={`px-2 py-1 rounded hover:cursor-pointer ${
+                className={`px-2 py-1 rounded hover:cursor-pointer whitespace-nowrap ${
                   variationMode && "opacity-70 pointer-events-none"
                 } ${
                   currentMove === idx * 2 + 1 && !variationMode
@@ -277,7 +277,7 @@ const ChessboardPreview = ({ moves, white, black, result, defaultMove = 0 }) => 
                     <span className="font-bold mr-2">{idx + 1}...</span>
                   )}
                   <button
-                    className={`px-2 py-1 rounded hover:cursor-pointer ${
+                    className={`px-2 py-1 rounded hover:cursor-pointer whitespace-nowrap ${
                       variationMode && "opacity-70 pointer-events-none"
                     } ${
                       currentMove === idx * 2 + 2 && !variationMode

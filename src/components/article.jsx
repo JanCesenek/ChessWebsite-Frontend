@@ -9,7 +9,7 @@ const Article = ({ title, owner, time, open, announcement }) => {
 
   return (
     <div
-      className={`flex flex-col items-center p-5 shadow-lg hover:cursor-pointer ${
+      className={`flex flex-col items-center p-10 shadow-lg hover:cursor-pointer ${
         !announcement && "hover:scale-110"
       } w-[min(80rem,80%)] rounded-lg bg-gradient-to-r ${
         lightMode
@@ -31,8 +31,8 @@ const Article = ({ title, owner, time, open, announcement }) => {
           </p>
         </div>
       )}
-      {title && <h2 className="text-[4rem] xl:text-[6rem]">{title}</h2>}
-      {owner && <span className="text-[2rem] xl:text-[3rem] my-5">Autor: {owner}</span>}
+      {title && <h2 className="text-[3.5rem] xl:text-[5rem]">{title}</h2>}
+      {owner && <span className="text-[1.5rem] xl:text-[2rem] my-5">Autor: {owner}</span>}
       {time && (
         <span className="flex items-center text-[0.8rem] xl:text-[1.2rem]">
           <IoIosTime className="mr-2" />
