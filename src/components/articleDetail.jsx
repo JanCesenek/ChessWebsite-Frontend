@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import parse, { domToReact } from "html-react-parser";
 import ChessboardPreview from "./chessboardPreview";
 import { generateHTML, generateJSON } from "@tiptap/react";
@@ -100,9 +100,17 @@ const ArticleDetail = ({ id, title, owner, image, time, content, own, back, remo
     initialContent = generateJSON(content, editorExtensions);
   }
 
+  useEffect(() => {
+    const articleElement = document.querySelector(".article-detail-container"); // Adjust class or ID as needed
+    if (articleElement) {
+      const topOffset = articleElement.offsetTop;
+      window.scrollTo(0, topOffset);
+    }
+  }, []);
+
   return (
     <div
-      className={`flex relative flex-col items-center rounded-md shadow-lg p-20 w-[min(120rem,80%)] text-[2rem] ${
+      className={`flex relative flex-col items-center rounded-md shadow-lg p-20 w-[min(120rem,80%)] text-[2rem] article-detail-container ${
         lightMode ? "bg-stone-300/90 shadow-black" : "bg-black/80 shadow-yellow-100/50"
       } "my-20" ${
         fullScreen && `fullscreen-editor ${lightMode ? "fullscreen-light" : "fullscreen-dark"}`
