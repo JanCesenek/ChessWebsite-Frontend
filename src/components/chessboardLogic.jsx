@@ -498,8 +498,8 @@ const ChessboardLogic = ({ onInsert, onClose }) => {
                   {/* White move */}
                   <span
                     className={`flex items-center mr-2 hover:cursor-cell ${
-                      defaultMove === idx * 2 + 1 && "font-black border border-yellow-100 p-2"
-                    }`}
+                      currentMove === idx * 2 + 1 && "border border-green-400 p-2"
+                    } ${defaultMove === idx * 2 + 1 && "font-black border border-yellow-100 p-2"}`}
                     onClick={() => {
                       setCurrentMove(idx * 2 + 1);
                       setWhiteTurn(false);
@@ -558,8 +558,8 @@ const ChessboardLogic = ({ onInsert, onClose }) => {
                 <div className="flex items-center mx-2 hover:cursor-cell">
                   <span
                     className={`flex items-center ${
-                      defaultMove === idx * 2 + 2 && "font-black border border-yellow-100 p-2"
-                    }`}
+                      currentMove === idx * 2 + 2 && "border border-green-400 p-2"
+                    } ${defaultMove === idx * 2 + 2 && "font-black border border-yellow-100 p-2"}`}
                     onClick={() => {
                       setCurrentMove(idx * 2 + 2);
                       setWhiteTurn(true);
