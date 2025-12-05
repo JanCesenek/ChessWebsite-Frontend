@@ -20,16 +20,15 @@ const ChessboardPreview = ({ moves, white, black, result, defaultMove = 0 }) => 
   const [whiteTurn, setWhiteTurn] = useState(defaultMove % 2 === 0);
 
   const moveRefs = useRef([]);
+  const annotationContainerRef = useRef(null); // Ref for the annotation scrollbar
 
   useEffect(() => {
-    if (!variationMode) {
-      // Main line
+    if (annotationContainerRef.current) {
       const ref = moveRefs.current[currentMove];
-      if (ref) ref.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    } else if (variationMode && activeVariation) {
-      // Variation line
-      const ref = moveRefs.current[`var-${activeVariation?.parentIdx}-${variationMoveIdx}`];
-      if (ref) ref.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (ref) {
+        const container = annotationContainerRef.current;
+        container.scrollTop = ref.offsetTop - container.offsetTop;
+      }
     }
   }, [currentMove, variationMoveIdx, variationMode]);
 
@@ -193,7 +192,9 @@ const ChessboardPreview = ({ moves, white, black, result, defaultMove = 0 }) => 
         )}
       </div>
       {/* Move annotation */}
-      <div className="mt-4 flex flex-col gap-2 max-h-[30rem] overflow-y-scroll">
+      <div
+        ref={annotationContainerRef}
+        className="mt-4 flex flex-col gap-2 max-h-[30rem] overflow-y-scroll">
         {movePairs.map(([white, black], idx) => (
           <div
             key={idx}
