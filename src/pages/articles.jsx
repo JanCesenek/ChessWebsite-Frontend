@@ -110,12 +110,12 @@ const Articles = () => {
 
   return (
     <div className={`flex flex-col items-center ${submitting && "pointer-events-none opacity-70"}`}>
-      {!addArticle && (
+      {!addArticle && !detail && (
         <div className="flex flex-col items-center w-full my-10">
           <Article announcement />
         </div>
       )}
-      {userData && (
+      {userData && !detail && (
         <Button
           msg={addArticle ? "Zavřít editor" : "Přidat článek"}
           click={() => setAddArticle(!addArticle)}
