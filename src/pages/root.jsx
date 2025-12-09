@@ -53,13 +53,13 @@ const Root = () => {
         }`}>
         <div className="flex flex-col items-center">
           <div className="flex flex-col items-center my-10">
-            <p className="text-[2rem] mb-10 underline">Chrudimský šachový oddíl podporuje:</p>
+            <p className="text-[2rem] mb-10 underline">Mladé sportovce podporuje:</p>
             <div className="flex items-center [&>*]:mx-2">
-              <div className="sm:max-w-[20rem] sm:max-h-[20rem] max-w-[15rem] max-h-[15rem]">
-                <img src={townSymbol} alt="Chrudimský znak" className="rounded-lg" />
-              </div>
               <div className="sm:max-w-[40rem] sm:max-h-[40rem] max-w-[30rem] max-h-[30rem]">
                 <img src={regionSymbol} alt="Pardubický kraj logo" className="rounded-lg" />
+              </div>
+              <div className="sm:max-w-[20rem] sm:max-h-[20rem] max-w-[15rem] max-h-[15rem]">
+                <img src={townSymbol} alt="Chrudimský znak" className="rounded-lg" />
               </div>
             </div>
           </div>
