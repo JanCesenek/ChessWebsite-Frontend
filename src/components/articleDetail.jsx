@@ -110,7 +110,7 @@ const ArticleDetail = ({ id, title, owner, image, time, content, own, back, remo
 
   return (
     <div
-      className={`flex relative flex-col items-center rounded-md shadow-lg p-20 w-[min(120rem,80%)] text-[2rem] article-detail-container ${
+      className={`flex relative flex-col items-center rounded-md shadow-lg p-20 w-[min(150rem,80%)] text-[2rem] article-detail-container ${
         lightMode ? "bg-stone-300/90 shadow-black" : "bg-black/80 shadow-yellow-100/50"
       } "my-20" ${
         fullScreen && `fullscreen-editor ${lightMode ? "fullscreen-light" : "fullscreen-dark"}`
