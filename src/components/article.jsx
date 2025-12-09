@@ -11,7 +11,7 @@ const Article = ({ title, owner, time, open, announcement }) => {
     <div
       className={`flex flex-col items-center p-10 shadow-lg hover:cursor-pointer ${
         !announcement && "hover:scale-110"
-      } w-[min(80rem,80%)] rounded-lg bg-gradient-to-r ${
+      } w-[min(100rem,80%)] rounded-lg bg-gradient-to-r ${
         lightMode
           ? "from-stone-500/80 via-white/80 to-stone-500/80 shadow-black/50 hover:shadow-black text-black"
           : "from-yellow-100/30 via-black/80 to-yellow-100/30 shadow-yellow-100/50 hover:shadow-yellow-100"
