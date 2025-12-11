@@ -7,7 +7,7 @@ import Error from "../audio/Error.mp3";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [lightMode, setLightMode] = useState(false);
+  const [lightMode, setLightMode] = useState(true);
 
   const [curUser, setCurUser] = useState(localStorage.getItem("curUser"));
 

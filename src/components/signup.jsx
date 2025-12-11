@@ -102,7 +102,7 @@ const Signup = ({ swap }) => {
         await refetch();
         const token = res.data.auth.token;
         localStorage.setItem("token", token);
-        logIn(username);
+        logIn(usernameValue); // Fixed the variable name
         addBearerToken(token);
         notifyContext("Signed up successfully!", "success");
       })
