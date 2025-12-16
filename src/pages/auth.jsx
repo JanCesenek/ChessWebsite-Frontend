@@ -79,6 +79,7 @@ const Auth = () => {
             <ArticleDetail
               id={detail?.id}
               title={detail?.title}
+              category={detail?.category}
               owner={detail?.owner}
               content={detail?.content}
               time={detail?.time}
@@ -96,12 +97,14 @@ const Auth = () => {
                   <Article
                     key={el.id}
                     title={el.title}
+                    category={el.category}
                     owner={owner}
                     time={el.createdAt}
                     open={() =>
                       setDetail({
                         id: el.id,
                         title: el.title,
+                        category: el.category,
                         owner,
                         content: el.content,
                         time: el.createdAt,

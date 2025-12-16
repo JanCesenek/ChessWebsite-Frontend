@@ -1,5 +1,6 @@
 import { useRef, useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { GiClick } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import { BsFillFileImageFill } from "react-icons/bs";
 import { FaRegHourglassHalf } from "react-icons/fa6";
@@ -15,6 +16,7 @@ import Article from "../components/article";
 const Articles = () => {
   const fileInputRef = useRef(null);
   const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
   const [image, setImage] = useState(null);
   const [fullScreen, setFullScreen] = useState(false);
   const [content, setContent] = useState("");
@@ -22,7 +24,11 @@ const Articles = () => {
 
   const [addArticle, setAddArticle] = useState(false);
 
+  const [filter, setFilter] = useState("");
+
   const [detail, setDetail] = useState(false);
+
+  const [showStream, setShowStream] = useState(false);
 
   const { data: aData, refetch: aRefetch, isLoading: aIsLoading } = useUpdate("/articles");
   const { data: uData, refetch: uRefetch, isLoading: uIsLoading } = useUpdate("/users");
@@ -82,6 +88,7 @@ const Articles = () => {
     const postReqPayload = {
       userID,
       title,
+      category,
       image: image
         ? `https://jwylvnqdlbtbmxsencfu.supabase.co/storage/v1/object/public/chess/articles/${uniqueID}`
         : `https://jwylvnqdlbtbmxsencfu.supabase.co/storage/v1/object/public/chess/articles/chessAmbience.jpg`,
@@ -110,19 +117,55 @@ const Articles = () => {
 
   return (
     <div className={`flex flex-col items-center ${submitting && "pointer-events-none opacity-70"}`}>
-      {!addArticle && !detail && (
-        <div className="flex flex-col items-center w-full my-10">
-          <Article announcement />
-        </div>
-      )}
-      {userData && !detail && (
+      {!addArticle &&
+        !detail &&
+        (showStream ? (
+          <div className="flex flex-col items-center w-full my-10">
+            <Article announcement close={() => setShowStream(false)} />
+          </div>
+        ) : (
+          <div
+            className={`flex items-center mb-28 p-5 shadow-md [&>*]:mx-2 ${
+              lightMode ? "bg-stone-300/90 shadow-black" : "bg-black shadow-yellow-100"
+            }`}>
+            <p className="text-[1.5rem]">Živý přenos domácích utkání zde:</p>
+            <GiClick
+              className="hover:cursor-pointer animate-pulse text-[4rem]"
+              onClick={() => setShowStream(true)}
+            />
+          </div>
+        ))}
+      {userData && !detail && !showStream && (
         <Button
           msg={addArticle ? "Zavřít editor" : "Přidat článek"}
           click={() => setAddArticle(!addArticle)}
           classes="my-10"
         />
       )}
-      {addArticle && (
+      {!addArticle && !detail && (
+        <div
+          className={`flex items-center p-5 my-20 shadow-md [&>*]:mx-2 text-[1.5rem] ${
+            lightMode ? "bg-stone-300/90 shadow-black" : "bg-black shadow-yellow-100"
+          }`}>
+          <label htmlFor="category">Kategorie:</label>
+          <select
+            name="category"
+            id="category"
+            className={`px-5 border shadow-md rounded-md focus:outline-none ${
+              lightMode
+                ? "border-black/20 shadow-black/50 [&>*]:bg-stone-300/90"
+                : "border-yellow-100/20 shadow-yellow-100/50 [&>*]:bg-black"
+            }`}
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}>
+            <option value="">---</option>
+            <option value="2. liga">2. liga</option>
+            <option value="KP1">KP1</option>
+            <option value="KP2">KP2</option>
+          </select>
+        </div>
+      )}
+      {addArticle && !showStream && (
         <div
           className={`flex flex-col relative shadow-lg ${
             lightMode ? "bg-stone-300/90 shadow-black" : "bg-black shadow-yellow-100"
@@ -150,6 +193,24 @@ const Articles = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
+          </div>
+          <div className="flex items-center [&>*]:px-5 text-[2rem] md:text-[3rem]">
+            <label htmlFor="category">Kategorie:</label>
+            <select
+              name="category"
+              id="category"
+              className={`px-5 border shadow-md rounded-md focus:outline-none ${
+                lightMode
+                  ? "border-black/20 shadow-black/50 [&>*]:bg-stone-300/90"
+                  : "border-yellow-100/20 shadow-yellow-100/50 [&>*]:bg-black"
+              }`}
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}>
+              <option value="">---</option>
+              <option value="2. liga">2. liga</option>
+              <option value="KP1">KP1</option>
+              <option value="KP2">KP2</option>
+            </select>
           </div>
           <div className="flex items-center">
             <label
@@ -195,6 +256,7 @@ const Articles = () => {
         </div>
       )}
       {!addArticle &&
+        !showStream &&
         (detail ? (
           <div className="flex justify-center w-full my-20">
             <ArticleDetail
@@ -212,11 +274,12 @@ const Articles = () => {
             {aData?.map((el) => {
               const ownerFind = uData?.find((user) => user.id === el.userID);
               const owner = `${ownerFind?.firstName} ${ownerFind?.lastName}`;
-              return (
+              const articleTemplate = (
                 <Article
                   key={el.id}
                   id={el.id}
                   title={el.title}
+                  category={el.category}
                   owner={owner}
                   time={el.createdAt}
                   open={() =>
@@ -231,6 +294,13 @@ const Articles = () => {
                   }
                 />
               );
+              if (filter !== "") {
+                if (el.category === filter) {
+                  return articleTemplate;
+                }
+              } else {
+                return articleTemplate;
+              }
             })}
           </div>
         ) : (

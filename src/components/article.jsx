@@ -1,16 +1,17 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { IoIosTime } from "react-icons/io";
+import { MdCancel } from "react-icons/md";
 import dayjs from "dayjs";
 
-const Article = ({ title, owner, time, open, announcement }) => {
+const Article = ({ title, category, owner, time, open, announcement, close }) => {
   const { lightMode } = useContext(AuthContext);
   const formattedDate = time ? dayjs(time).format("D.M.YYYY H:mm") : "";
 
   return (
     <div
-      className={`flex flex-col items-center p-10 shadow-lg hover:cursor-pointer ${
-        !announcement && "hover:scale-110"
+      className={`flex relative flex-col items-center p-10 shadow-lg ${
+        !announcement && "hover:cursor-pointer hover:scale-110"
       } w-[min(100rem,80%)] rounded-lg bg-gradient-to-r ${
         lightMode
           ? "from-stone-500/80 via-white/80 to-stone-500/80 shadow-black/50 hover:shadow-black text-black"
@@ -31,13 +32,31 @@ const Article = ({ title, owner, time, open, announcement }) => {
           </p>
         </div>
       )}
-      {title && <h2 className="text-[3.5rem] xl:text-[5rem]">{title}</h2>}
-      {owner && <span className="text-[1.5rem] xl:text-[2rem] my-5">Autor: {owner}</span>}
+      {category && (
+        <div
+          className={`w-full flex justify-center border-b pb-5 ${
+            lightMode ? "border-black/20" : "border-yellow-100/20"
+          }`}>
+          <h3 className="text-[2rem] italic xl:text-[3rem]">{category}</h3>
+        </div>
+      )}
+      {title && (
+        <div
+          className={`w-full flex justify-center border-b py-5 ${
+            lightMode ? "border-black/20" : "border-yellow-100/20"
+          }`}>
+          <h2 className="text-[3.5rem] xl:text-[5rem] font-bold">{title}</h2>
+        </div>
+      )}
+      {owner && <span className="text-[1.5rem] xl:text-[2rem] mt-10 mb-5">Autor: {owner}</span>}
       {time && (
         <span className="flex items-center text-[0.8rem] xl:text-[1.2rem]">
           <IoIosTime className="mr-2" />
           <span>Datum vytvoření: {formattedDate}</span>
         </span>
+      )}
+      {announcement && (
+        <MdCancel className="absolute top-5 right-5 cursor-pointer text-[3rem]" onClick={close} />
       )}
     </div>
   );

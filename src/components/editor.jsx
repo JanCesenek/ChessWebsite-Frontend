@@ -35,6 +35,8 @@ import ListItem from "@tiptap/extension-list-item";
 import CodeBlock from "@tiptap/extension-code-block";
 import ChessboardLogic from "./chessboardLogic";
 import { ChessGame } from "./chessgameComponent";
+import { BsFillFileImageFill } from "react-icons/bs";
+import { PiGifFill } from "react-icons/pi";
 
 export const editorExtensions = [
   StarterKit.configure({
@@ -72,7 +74,10 @@ export const editorExtensions = [
     },
   }).configure({ levels: [1, 2, 3] }),
   Image.configure({
-    HTMLAttributes: { class: "image-limit" },
+    HTMLAttributes: {
+      class: "image-limit",
+      onError: "this.style.display='none';", // Hide the image if it fails to load
+    },
     inline: true,
     allowBase64: true,
   }),
@@ -159,10 +164,20 @@ const Editor = ({ content, setContent, fullScreen, toggleFullScreen }) => {
     const file = event.target.files[0];
     if (file) {
       try {
-        const dataUrl = await resizeImage(file);
-        editor.chain().focus().setImage({ src: dataUrl }).run();
+        if (file.type === "image/gif") {
+          // If the file is a GIF, insert it directly without resizing
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            editor.chain().focus().setImage({ src: e.target.result }).run();
+          };
+          reader.readAsDataURL(file);
+        } else {
+          // For other image types, resize and compress
+          const dataUrl = await resizeImage(file);
+          editor.chain().focus().setImage({ src: dataUrl }).run();
+        }
       } catch (error) {
-        alert("Nahrání obrázku se nezdařilo" + error.message);
+        alert("Nahrání obrázku se nezdařilo: " + error.message);
       }
     }
   };
@@ -182,6 +197,13 @@ const Editor = ({ content, setContent, fullScreen, toggleFullScreen }) => {
     const url = prompt("Enter the Youtube URL");
     if (url) {
       editor.chain().focus().setYoutubeVideo({ src: url }).run();
+    }
+  };
+
+  const addExternalGif = () => {
+    const url = prompt("Enter the URL of the GIF");
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run();
     }
   };
 
@@ -341,6 +363,12 @@ const Editor = ({ content, setContent, fullScreen, toggleFullScreen }) => {
             onClick={addYoutubeVideo}
             className="hover:cursor-pointer text-[2rem]">
             <FaYoutube />
+          </button>
+          <button
+            title="Přidat externí GIF"
+            onClick={addExternalGif}
+            className="hover:cursor-pointer text-[2rem]">
+            <PiGifFill />
           </button>
           <button
             title={fullScreen ? "Zmenšit" : "Zvětšit"}

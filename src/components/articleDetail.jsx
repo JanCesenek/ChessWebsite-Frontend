@@ -12,7 +12,19 @@ import { api } from "../core/api";
 import { AuthContext } from "../context/AuthContext";
 import dayjs from "dayjs";
 
-const ArticleDetail = ({ id, title, owner, image, time, content, own, back, remove, refetch }) => {
+const ArticleDetail = ({
+  id,
+  title,
+  category,
+  owner,
+  image,
+  time,
+  content,
+  own,
+  back,
+  remove,
+  refetch,
+}) => {
   const [edit, setEdit] = useState(false);
 
   const [submitting, setSubmitting] = useState(false);
@@ -21,6 +33,7 @@ const ArticleDetail = ({ id, title, owner, image, time, content, own, back, remo
 
   const [newContent, setNewContent] = useState(content);
   const [newTitle, setNewTitle] = useState(title);
+  const [newCategory, setNewCategory] = useState(category);
 
   const { lightMode, notifyContext } = useContext(AuthContext);
 
@@ -74,6 +87,7 @@ const ArticleDetail = ({ id, title, owner, image, time, content, own, back, remo
     await api
       .patch(`/articles/${id}`, {
         title: newTitle,
+        category: newCategory,
         content: JSON.stringify(contentToSave),
       })
       .then(async () => {
@@ -131,6 +145,24 @@ const ArticleDetail = ({ id, title, owner, image, time, content, own, back, remo
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
             />
+          </div>
+          <div className="flex items-center my-5 [&>*]:px-2">
+            <label htmlFor="newCategory">Kategorie: </label>
+            <select
+              name="newCategory"
+              id="newCategory"
+              className={`px-5 border shadow-md rounded-md focus:outline-none ${
+                lightMode
+                  ? "border-black/20 shadow-black/50 [&>*]:bg-stone-300/90"
+                  : "border-yellow-100/20 shadow-yellow-100/50 [&>*]:bg-black"
+              }`}
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}>
+              <option value="">---</option>
+              <option value="2. liga">2. liga</option>
+              <option value="KP1">KP1</option>
+              <option value="KP2">KP2</option>
+            </select>
           </div>
           <Editor
             content={initialContent}
@@ -199,7 +231,10 @@ const ArticleDetail = ({ id, title, owner, image, time, content, own, back, remo
             {parse(htmlContent, options)}
           </div>
           {own && (
-            <div className="flex justify-center w-full border-t border-yellow-100/20 mt-10">
+            <div
+              className={`flex justify-center w-full border-t ${
+                lightMode ? "border-black/20" : "border-yellow-100/20"
+              } mt-10`}>
               <Button msg="Zpět" click={back} classes="mt-10" />
             </div>
           )}
