@@ -142,7 +142,7 @@ const Articles = () => {
           classes="my-10"
         />
       )}
-      {!addArticle && !detail && (
+      {!addArticle && !detail && !showStream && (
         <div
           className={`flex items-center p-5 my-20 shadow-md [&>*]:mx-2 text-[1.5rem] ${
             lightMode ? "bg-stone-300/90 shadow-black" : "bg-black shadow-yellow-100"

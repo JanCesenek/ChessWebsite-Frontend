@@ -5,6 +5,7 @@ import { Chess } from "chess.js";
 import Button from "./button";
 import { MdOutlineReplayCircleFilled } from "react-icons/md";
 import { BiSolidSkipPreviousCircle, BiSolidSkipNextCircle } from "react-icons/bi";
+import { BsRewindCircleFill, BsFastForwardCircleFill } from "react-icons/bs";
 import { FaCircleArrowUp } from "react-icons/fa6";
 
 const ChessboardPreview = ({ moves, white, black, result, defaultMove = 0 }) => {
@@ -130,6 +131,14 @@ const ChessboardPreview = ({ moves, white, black, result, defaultMove = 0 }) => 
           <>
             <Button
               click={() => {
+                setCurrentMove(0);
+                setWhiteTurn(true);
+              }}
+              disabled={currentMove === 0}
+              msg={<BsRewindCircleFill className="p-2 text-[5rem]" />}
+            />
+            <Button
+              click={() => {
                 setCurrentMove(Math.max(currentMove - 1, 0));
                 setWhiteTurn(!whiteTurn);
               }}
@@ -138,19 +147,19 @@ const ChessboardPreview = ({ moves, white, black, result, defaultMove = 0 }) => 
             />
             <Button
               click={() => {
-                setCurrentMove(0);
-                setWhiteTurn(true);
-              }}
-              disabled={currentMove === 0}
-              msg={<MdOutlineReplayCircleFilled className="p-2 text-[5rem]" />}
-            />
-            <Button
-              click={() => {
                 setCurrentMove(Math.min(currentMove + 1, moves.length));
                 setWhiteTurn(!whiteTurn);
               }}
               disabled={currentMove === moves.length}
               msg={<BiSolidSkipNextCircle className="p-2 text-[5rem]" />}
+            />
+            <Button
+              click={() => {
+                setCurrentMove(moves.length);
+                setWhiteTurn(moves.length % 2 === 0);
+              }}
+              disabled={currentMove === moves.length}
+              msg={<BsFastForwardCircleFill className="p-2 text-[5rem]" />}
             />
           </>
         ) : (
