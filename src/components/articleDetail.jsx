@@ -230,14 +230,12 @@ const ArticleDetail = ({
             }`}>
             {parse(htmlContent, options)}
           </div>
-          {own && (
-            <div
-              className={`flex justify-center w-full border-t ${
-                lightMode ? "border-black/20" : "border-yellow-100/20"
-              } mt-10`}>
-              <Button msg="Zpět" click={back} classes="mt-10" />
-            </div>
-          )}
+          <div
+            className={`flex justify-center w-full border-t ${
+              lightMode ? "border-black/20" : "border-yellow-100/20"
+            } mt-10`}>
+            <Button msg="Zpět" click={back} classes="mt-10" />
+          </div>
         </>
       )}
     </div>
