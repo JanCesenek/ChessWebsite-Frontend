@@ -41,7 +41,7 @@ const Signup = ({ swap }) => {
       /[A-Z]/.test(value) &&
       /[a-z]/.test(value) &&
       /[0-9]/.test(value) &&
-      /^[A-Za-z0-9]+$/.test(value)
+      /^[A-Za-z0-9]+$/.test(value),
   );
 
   const {
@@ -58,7 +58,7 @@ const Signup = ({ swap }) => {
       /[A-Z]/.test(value) &&
       /[a-z]/.test(value) &&
       /[0-9]/.test(value) &&
-      /[$&+,:;=?@#|'"<>.⌃*()%!-_]/.test(value)
+      /[$&+,:;=?@#|'"<>.⌃*()%!-_]/.test(value),
   );
 
   const { lightMode, logIn, notifyContext } = useContext(AuthContext);
@@ -150,17 +150,20 @@ const Signup = ({ swap }) => {
               )}
             </h2>
             {rules && (
-              <>
-                <p>Jméno/příjmení: pouze písmena povolena, 2-30 znaků</p>
+              <div
+                className={`rounded-md p-5 border my-10 text-[1.6rem] ${lightMode ? "border-black/20" : "border-yellow-100/20"}`}>
                 <p>
-                  Uživatelské jméno: bez diakritiky, aspoň jedno velké, jedno malé písmeno a číslo.
-                  6-16 znaků
+                  <strong>Jméno/příjmení:</strong> pouze písmena povolena, 2-30 znaků
                 </p>
                 <p>
-                  Heslo: bez diakritiky, aspoň jedno velké, jedno malé písmeno, jedno číslo a jeden
-                  speciální znak. 8-16 znaků
+                  <strong>Uživatelské jméno:</strong> bez diakritiky, aspoň jedno velké, jedno malé
+                  písmeno a číslo. 6-16 znaků
                 </p>
-              </>
+                <p>
+                  <strong>Heslo:</strong> bez diakritiky, aspoň jedno velké, jedno malé písmeno,
+                  jedno číslo a jeden speciální znak. 8-16 znaků
+                </p>
+              </div>
             )}
           </div>
           <div className="flex justify-between">

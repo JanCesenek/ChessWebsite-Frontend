@@ -114,6 +114,9 @@ const Login = ({ swap }) => {
           <p className="underline hover:cursor-pointer" onClick={swap}>
             Nemáte účet? Klikněte zde pro registraci.
           </p>
+          <p className={lightMode ? "text-red-600" : "text-yellow-400"}>
+            Účet slouží pouze k vytváření/spravování článků, nic pro běžné uživatele.
+          </p>
         </Form>
       </div>
     </div>
