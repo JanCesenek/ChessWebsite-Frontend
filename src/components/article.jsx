@@ -35,18 +35,17 @@ const Article = ({ title, category, round, teams, owner, time, open, announcemen
         </div>
       )}
       {round && teams && (
-        <div className={`w-full flex flex-col`}>
+        <div
+          className={`w-full flex flex-col mb-5 border-b ${lightMode ? "border-black/5" : "border-yellow-100/5"}`}>
           <div className="flex items-center [&>*]:mx-2 my-2">
-            <BsHourglassSplit className="text-[1.5rem] xl:text-[2.2rem]" />
-            <h4 className="text-[1.2rem] xl:text-[1.8rem] font-['Roboto_Mono',monospace]">
+            <BsHourglassSplit className="text-[1.2rem] xl:text-[1.8rem]" />
+            <h4 className="text-[1rem] xl:text-[1.5rem] font-['Roboto_Mono',monospace]">
               {round} kolo
             </h4>
           </div>
           <div className="flex items-center [&>*]:mx-2 my-2">
-            <RiTeamFill className="text-[1.5rem] xl:text-[2.2rem]" />
-            <h4 className="text-[1.2rem] xl:text-[1.8rem] font-['Roboto_Mono',monospace]">
-              {teams}
-            </h4>
+            <RiTeamFill className="text-[1.2rem] xl:text-[1.8rem]" />
+            <h4 className="text-[1rem] xl:text-[1.5rem] font-['Roboto_Mono',monospace]">{teams}</h4>
           </div>
         </div>
       )}
