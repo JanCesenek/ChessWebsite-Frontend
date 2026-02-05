@@ -3,6 +3,8 @@ import parse, { domToReact } from "html-react-parser";
 import ChessboardPreview from "./chessboardPreview";
 import { generateHTML, generateJSON } from "@tiptap/react";
 import { editorExtensions } from "./editor";
+import { BsHourglassSplit } from "react-icons/bs";
+import { RiTeamFill } from "react-icons/ri";
 import { MdEditSquare, MdDelete } from "react-icons/md";
 import { IoIosTime, IoIosCloseCircle } from "react-icons/io";
 import { FaRegHourglassHalf } from "react-icons/fa6";
@@ -17,6 +19,8 @@ const ArticleDetail = ({
   title,
   category,
   owner,
+  round,
+  teams,
   image,
   time,
   content,
@@ -34,6 +38,8 @@ const ArticleDetail = ({
   const [newContent, setNewContent] = useState(content);
   const [newTitle, setNewTitle] = useState(title);
   const [newCategory, setNewCategory] = useState(category);
+  const [newRound, setNewRound] = useState(round);
+  const [newTeams, setNewTeams] = useState(teams);
 
   const { lightMode, notifyContext } = useContext(AuthContext);
 
@@ -88,6 +94,8 @@ const ArticleDetail = ({
       .patch(`/articles/${id}`, {
         title: newTitle,
         category: newCategory,
+        round: newRound,
+        teams: newTeams,
         content: JSON.stringify(contentToSave),
       })
       .then(async () => {
@@ -164,6 +172,47 @@ const ArticleDetail = ({
               <option value="KP2">KP2</option>
             </select>
           </div>
+          <div className="flex items-center my-5 [&>*]:px-2">
+            <label htmlFor="newRound">Kolo: </label>
+            <select
+              name="newRound"
+              id="newRound"
+              className={`px-5 border shadow-md rounded-md focus:outline-none ${
+                lightMode
+                  ? "border-black/20 shadow-black/50 [&>*]:bg-stone-300/90"
+                  : "border-yellow-100/20 shadow-yellow-100/50 [&>*]:bg-black"
+              }`}
+              value={newRound}
+              onChange={(e) => setNewRound(e.target.value)}>
+              <option value="">---</option>
+              <option value="1.">1.</option>
+              <option value="2.">2.</option>
+              <option value="3.">3.</option>
+              <option value="4.">4.</option>
+              <option value="5.">5.</option>
+              <option value="6.">6.</option>
+              <option value="7.">7.</option>
+              <option value="8.">8.</option>
+              <option value="9.">9.</option>
+              <option value="10.">10.</option>
+              <option value="11.">11.</option>
+            </select>
+          </div>
+          <div className="flex items-center my-5 [&>*]:px-2">
+            <label htmlFor="newTeams">Týmy: </label>
+            <input
+              type="text"
+              id="newTeams"
+              name="newTeams"
+              className={`bg-transparent border shadow-md focus:outline-none rounded-md ${
+                lightMode
+                  ? "border-black/20 shadow-black/50 focus:shadow-black"
+                  : " border-yellow-100/20 shadow-yellow-100/50 focus:shadow-yellow-100"
+              }`}
+              value={newTeams}
+              onChange={(e) => setNewTeams(e.target.value)}
+            />
+          </div>
           <Editor
             content={initialContent}
             setContent={setNewContent}
@@ -204,7 +253,19 @@ const ArticleDetail = ({
             <IoIosTime className="mr-2" />
             <span>Datum vytvoření: {formattedDate}</span>
           </div>
-          <h3 className="text-[1.5rem]">Autor: {owner}</h3>
+          <h3 className="text-[1.5rem] my-2">Autor: {owner}</h3>
+          {round && (
+            <div className="flex items-center [&>*]:mx-2 mt-10">
+              <BsHourglassSplit className="text-[3rem]" />
+              <h2 className="text-[2.5rem] my-2 italic">{round} kolo</h2>
+            </div>
+          )}
+          {teams && (
+            <div className="flex items-center [&>*]:mx-2">
+              <RiTeamFill className="text-[3rem]" />
+              <h2 className="text-[2.5rem] my-2 italic">{teams}</h2>
+            </div>
+          )}
           {own && (
             <div className="absolute flex items-center top-5 right-5 gap-2 text-[5rem]">
               <MdEditSquare className="hover:cursor-pointer" onClick={() => setEdit(true)} />

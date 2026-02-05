@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { BsHourglassSplit } from "react-icons/bs";
+import { RiTeamFill } from "react-icons/ri";
 import { IoIosTime } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
 import dayjs from "dayjs";
 
-const Article = ({ title, category, owner, time, open, announcement, close }) => {
+const Article = ({ title, category, round, teams, owner, time, open, announcement, close }) => {
   const { lightMode } = useContext(AuthContext);
   const formattedDate = time ? dayjs(time).format("D.M.YYYY H:mm") : "";
 
@@ -30,6 +32,22 @@ const Article = ({ title, category, owner, time, open, announcement, close }) =>
               Odkaz zde
             </a>
           </p>
+        </div>
+      )}
+      {round && teams && (
+        <div className={`w-full flex flex-col`}>
+          <div className="flex items-center [&>*]:mx-2 my-2">
+            <BsHourglassSplit className="text-[1.5rem] xl:text-[2.2rem]" />
+            <h4 className="text-[1.2rem] xl:text-[1.8rem] font-['Roboto_Mono',monospace]">
+              {round} kolo
+            </h4>
+          </div>
+          <div className="flex items-center [&>*]:mx-2 my-2">
+            <RiTeamFill className="text-[1.5rem] xl:text-[2.2rem]" />
+            <h4 className="text-[1.2rem] xl:text-[1.8rem] font-['Roboto_Mono',monospace]">
+              {teams}
+            </h4>
+          </div>
         </div>
       )}
       {category && (

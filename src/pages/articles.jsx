@@ -263,6 +263,8 @@ const Articles = () => {
               id={detail?.id}
               title={detail?.title}
               owner={detail?.owner}
+              round={detail?.round}
+              teams={detail?.teams}
               time={detail?.time}
               content={detail?.content}
               image={detail?.image}
@@ -280,6 +282,8 @@ const Articles = () => {
                   id={el.id}
                   title={el.title}
                   category={el.category}
+                  round={el.round}
+                  teams={el.teams}
                   owner={owner}
                   time={el.createdAt}
                   open={() =>
@@ -288,6 +292,8 @@ const Articles = () => {
                       title: el.title,
                       owner,
                       content: el.content,
+                      round: el.round,
+                      teams: el.teams,
                       time: el.createdAt,
                       image: el.image,
                     })
