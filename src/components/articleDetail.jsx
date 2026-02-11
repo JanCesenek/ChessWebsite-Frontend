@@ -21,6 +21,7 @@ const ArticleDetail = ({
   owner,
   round,
   teams,
+  season,
   image,
   time,
   content,
@@ -40,6 +41,7 @@ const ArticleDetail = ({
   const [newCategory, setNewCategory] = useState(category);
   const [newRound, setNewRound] = useState(round);
   const [newTeams, setNewTeams] = useState(teams);
+  const [newSeason, setNewSeason] = useState(season);
 
   const { lightMode, notifyContext } = useContext(AuthContext);
 
@@ -96,6 +98,7 @@ const ArticleDetail = ({
         category: newCategory,
         round: newRound,
         teams: newTeams,
+        season: newSeason,
         content: JSON.stringify(contentToSave),
       })
       .then(async () => {
@@ -212,6 +215,24 @@ const ArticleDetail = ({
               value={newTeams}
               onChange={(e) => setNewTeams(e.target.value)}
             />
+          </div>
+          <div className="flex items-center my-5 [&>*]:px-2">
+            <label htmlFor="newSeason">Sezóna:</label>
+            <select
+              name="newSeason"
+              id="newSeason"
+              className={`px-5 border shadow-md rounded-md focus:outline-none ${
+                lightMode
+                  ? "border-black/20 shadow-black/50 [&>*]:bg-stone-300/90"
+                  : "border-yellow-100/20 shadow-yellow-100/50 [&>*]:bg-black"
+              }`}
+              value={newSeason}
+              onChange={(e) => setNewSeason(e.target.value)}>
+              <option value="">---</option>
+              <option value="2024/2025">2024/2025</option>
+              <option value="2025/2026">2025/2026</option>
+              <option value="2026/2027">2026/2027</option>
+            </select>
           </div>
           <Editor
             content={initialContent}

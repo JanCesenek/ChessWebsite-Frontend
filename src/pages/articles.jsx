@@ -17,6 +17,9 @@ const Articles = () => {
   const fileInputRef = useRef(null);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
+  const [round, setRound] = useState("");
+  const [teams, setTeams] = useState("");
+  const [season, setSeason] = useState("");
   const [image, setImage] = useState(null);
   const [fullScreen, setFullScreen] = useState(false);
   const [content, setContent] = useState("");
@@ -25,6 +28,9 @@ const Articles = () => {
   const [addArticle, setAddArticle] = useState(false);
 
   const [filter, setFilter] = useState("");
+  const [filterRound, setFilterRound] = useState("");
+  const [filterTeams, setFilterTeams] = useState("");
+  const [filterSeason, setFilterSeason] = useState("");
 
   const [detail, setDetail] = useState(false);
 
@@ -54,6 +60,13 @@ const Articles = () => {
     fullScreen && setFullScreen(false);
     setAddArticle(false);
     fileInputRef.current.value = null;
+  };
+
+  const resetFilter = () => {
+    setFilter("");
+    setFilterRound("");
+    setFilterTeams("");
+    setFilterSeason("");
   };
 
   const createArticle = async () => {
@@ -89,6 +102,9 @@ const Articles = () => {
       userID,
       title,
       category,
+      round,
+      teams,
+      season,
       image: image
         ? `https://jwylvnqdlbtbmxsencfu.supabase.co/storage/v1/object/public/chess/articles/${uniqueID}`
         : `https://jwylvnqdlbtbmxsencfu.supabase.co/storage/v1/object/public/chess/articles/chessAmbience.jpg`,
@@ -144,25 +160,91 @@ const Articles = () => {
       )}
       {!addArticle && !detail && !showStream && (
         <div
-          className={`flex items-center p-5 my-20 shadow-md [&>*]:mx-2 text-[1.5rem] ${
+          className={`flex flex-col md:flex-row items-center p-5 my-20 shadow-md [&>*]:mx-2 text-[1.5rem] ${
             lightMode ? "bg-stone-300/90 shadow-black" : "bg-black shadow-yellow-100"
           }`}>
-          <label htmlFor="category">Kategorie:</label>
-          <select
-            name="category"
-            id="category"
-            className={`px-5 border shadow-md rounded-md focus:outline-none ${
-              lightMode
-                ? "border-black/20 shadow-black/50 [&>*]:bg-stone-300/90"
-                : "border-yellow-100/20 shadow-yellow-100/50 [&>*]:bg-black"
-            }`}
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}>
-            <option value="">---</option>
-            <option value="2. liga">2. liga</option>
-            <option value="KP1">KP1</option>
-            <option value="KP2">KP2</option>
-          </select>
+          <div className="flex items-center my-5 [&>*]:px-2">
+            <label htmlFor="category">Kategorie:</label>
+            <select
+              name="category"
+              id="category"
+              className={`px-5 border shadow-md rounded-md focus:outline-none ${
+                lightMode
+                  ? "border-black/20 shadow-black/50 [&>*]:bg-stone-300/90"
+                  : "border-yellow-100/20 shadow-yellow-100/50 [&>*]:bg-black"
+              }`}
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}>
+              <option value="">---</option>
+              <option value="2. liga">2. liga</option>
+              <option value="KP1">KP1</option>
+              <option value="KP2">KP2</option>
+            </select>
+          </div>
+          <div className="flex items-center my-5 [&>*]:px-2">
+            <label htmlFor="filterRound">Kolo: </label>
+            <select
+              name="filterRound"
+              id="filterRound"
+              className={`px-5 border shadow-md rounded-md focus:outline-none ${
+                lightMode
+                  ? "border-black/20 shadow-black/50 [&>*]:bg-stone-300/90"
+                  : "border-yellow-100/20 shadow-yellow-100/50 [&>*]:bg-black"
+              }`}
+              value={filterRound}
+              onChange={(e) => setFilterRound(e.target.value)}>
+              <option value="">---</option>
+              <option value="1.">1.</option>
+              <option value="2.">2.</option>
+              <option value="3.">3.</option>
+              <option value="4.">4.</option>
+              <option value="5.">5.</option>
+              <option value="6.">6.</option>
+              <option value="7.">7.</option>
+              <option value="8.">8.</option>
+              <option value="9.">9.</option>
+              <option value="10.">10.</option>
+              <option value="11.">11.</option>
+            </select>
+          </div>
+          <div className="flex items-center my-5 [&>*]:px-2">
+            <label htmlFor="filterTeams">Týmy: </label>
+            <input
+              type="text"
+              id="filterTeams"
+              name="filterTeams"
+              className={`bg-transparent border shadow-md focus:outline-none rounded-md ${
+                lightMode
+                  ? "border-black/20 shadow-black/50 focus:shadow-black"
+                  : " border-yellow-100/20 shadow-yellow-100/50 focus:shadow-yellow-100"
+              }`}
+              value={filterTeams}
+              onChange={(e) => setFilterTeams(e.target.value)}
+            />
+          </div>
+          <div className="flex items-center my-5 [&>*]:px-2">
+            <label htmlFor="filterSeason">Sezóna:</label>
+            <select
+              name="filterSeason"
+              id="filterSeason"
+              className={`px-5 border shadow-md rounded-md focus:outline-none ${
+                lightMode
+                  ? "border-black/20 shadow-black/50 [&>*]:bg-stone-300/90"
+                  : "border-yellow-100/20 shadow-yellow-100/50 [&>*]:bg-black"
+              }`}
+              value={filterSeason}
+              onChange={(e) => setFilterSeason(e.target.value)}>
+              <option value="">---</option>
+              <option value="2024/2025">2024/2025</option>
+              <option value="2025/2026">2025/2026</option>
+              <option value="2026/2027">2026/2027</option>
+            </select>
+          </div>
+          <Button
+            msg="Reset"
+            classes="mx-0 md:!mx-10 my-5 md:my-0 !text-[1.5rem]"
+            click={resetFilter}
+          />
         </div>
       )}
       {addArticle && !showStream && (
@@ -210,6 +292,65 @@ const Articles = () => {
               <option value="2. liga">2. liga</option>
               <option value="KP1">KP1</option>
               <option value="KP2">KP2</option>
+            </select>
+          </div>
+          <div className="flex items-center my-5 [&>*]:px-5 text-[2rem] md:text-[3rem]">
+            <label htmlFor="round">Kolo:</label>
+            <select
+              name="round"
+              id="round"
+              className={`px-5 border shadow-md rounded-md focus:outline-none ${
+                lightMode
+                  ? "border-black/20 shadow-black/50 [&>*]:bg-stone-300/90"
+                  : "border-yellow-100/20 shadow-yellow-100/50 [&>*]:bg-black"
+              }`}
+              value={round}
+              onChange={(e) => setRound(e.target.value)}>
+              <option value="">---</option>
+              <option value="1.">1.</option>
+              <option value="2.">2.</option>
+              <option value="3.">3.</option>
+              <option value="4.">4.</option>
+              <option value="5.">5.</option>
+              <option value="6.">6.</option>
+              <option value="7.">7.</option>
+              <option value="8.">8.</option>
+              <option value="9.">9.</option>
+              <option value="10.">10.</option>
+              <option value="11.">11.</option>
+            </select>
+          </div>
+          <div className="flex items-center my-5 [&>*]:px-5 text-[2rem] md:text-[3rem]">
+            <label htmlFor="teams">Týmy:</label>
+            <input
+              type="text"
+              id="teams"
+              name="teams"
+              className={`bg-transparent border shadow-md focus:outline-none rounded-md ${
+                lightMode
+                  ? "border-black/20 shadow-black/50 focus:shadow-black"
+                  : " border-yellow-100/20 shadow-yellow-100/50 focus:shadow-yellow-100"
+              }`}
+              value={teams}
+              onChange={(e) => setTeams(e.target.value)}
+            />
+          </div>
+          <div className="flex items-center my-5 [&>*]:px-5 text-[2rem] md:text-[3rem]">
+            <label htmlFor="season">Sezóna:</label>
+            <select
+              name="season"
+              id="season"
+              className={`px-5 border shadow-md rounded-md focus:outline-none ${
+                lightMode
+                  ? "border-black/20 shadow-black/50 [&>*]:bg-stone-300/90"
+                  : "border-yellow-100/20 shadow-yellow-100/50 [&>*]:bg-black"
+              }`}
+              value={season}
+              onChange={(e) => setSeason(e.target.value)}>
+              <option value="">---</option>
+              <option value="2024/2025">2024/2025</option>
+              <option value="2025/2026">2025/2026</option>
+              <option value="2026/2027">2026/2027</option>
             </select>
           </div>
           <div className="flex items-center">
@@ -268,6 +409,7 @@ const Articles = () => {
               time={detail?.time}
               content={detail?.content}
               image={detail?.image}
+              season={detail?.season}
               back={() => setDetail(false)}
             />
           </div>
@@ -284,6 +426,7 @@ const Articles = () => {
                   category={el.category}
                   round={el.round}
                   teams={el.teams}
+                  season={el.season}
                   owner={owner}
                   time={el.createdAt}
                   open={() =>
@@ -294,19 +437,118 @@ const Articles = () => {
                       content: el.content,
                       round: el.round,
                       teams: el.teams,
+                      season: el.season,
                       time: el.createdAt,
                       image: el.image,
                     })
                   }
                 />
               );
-              if (filter !== "") {
-                if (el.category === filter) {
+              if (filter) {
+                if (filterRound) {
+                  if (filterTeams) {
+                    if (filterSeason) {
+                      if (
+                        el.category === filter &&
+                        el.round === filterRound &&
+                        el.teams?.toLowerCase().includes(filterTeams?.toLowerCase()) &&
+                        el.season === filterSeason
+                      ) {
+                        return articleTemplate;
+                      }
+                    } else {
+                      if (
+                        el.category === filter &&
+                        el.round === filterRound &&
+                        el.teams?.toLowerCase().includes(filterTeams?.toLowerCase())
+                      ) {
+                        return articleTemplate;
+                      }
+                    }
+                  } else if (!filterTeams && filterSeason) {
+                    if (
+                      el.category === filter &&
+                      el.round === filterRound &&
+                      el.season === filterSeason
+                    ) {
+                      return articleTemplate;
+                    }
+                  } else {
+                    if (el.category === filter && el.round === filterRound) {
+                      return articleTemplate;
+                    }
+                  }
+                } else if (filterTeams) {
+                  if (filterSeason) {
+                    if (
+                      el.category === filter &&
+                      el.teams?.toLowerCase().includes(filterTeams?.toLocaleLowerCase()) &&
+                      el.season === filterSeason
+                    ) {
+                      return articleTemplate;
+                    }
+                  } else {
+                    if (
+                      el.category === filter &&
+                      el.teams?.toLowerCase().includes(filterTeams?.toLocaleLowerCase())
+                    ) {
+                      return articleTemplate;
+                    }
+                  }
+                } else if (filterSeason) {
+                  if (el.category === filter && el.season === filterSeason) {
+                    return articleTemplate;
+                  }
+                } else {
+                  if (el.category === filter) {
+                    return articleTemplate;
+                  }
+                }
+              } else if (filterRound) {
+                if (filterTeams) {
+                  if (filterSeason) {
+                    if (
+                      el.round === filterRound &&
+                      el.teams?.toLowerCase().includes(filterTeams?.toLocaleLowerCase()) &&
+                      el.season === filterSeason
+                    ) {
+                      return articleTemplate;
+                    }
+                  } else {
+                    if (
+                      el.round === filterRound &&
+                      el.teams?.toLowerCase().includes(filterTeams?.toLocaleLowerCase())
+                    ) {
+                      return articleTemplate;
+                    }
+                  }
+                } else if (filterSeason) {
+                  if (el.round === filterRound && el.season === filterSeason) {
+                    return articleTemplate;
+                  }
+                } else {
+                  if (el.round === filterRound) {
+                    return articleTemplate;
+                  }
+                }
+              } else if (filterTeams) {
+                if (filterSeason) {
+                  if (
+                    el.teams?.toLowerCase().includes(filterTeams?.toLocaleLowerCase()) &&
+                    el.season === filterSeason
+                  ) {
+                    return articleTemplate;
+                  }
+                } else {
+                  if (el.teams?.toLowerCase().includes(filterTeams?.toLocaleLowerCase())) {
+                    return articleTemplate;
+                  }
+                }
+              } else if (filterSeason) {
+                if (el.season === filterSeason) {
                   return articleTemplate;
                 }
-              } else {
-                return articleTemplate;
-              }
+              } else return articleTemplate;
             })}
           </div>
         ) : (

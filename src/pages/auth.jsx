@@ -82,6 +82,7 @@ const Auth = () => {
               category={detail?.category}
               round={detail?.round}
               teams={detail?.teams}
+              season={detail?.season}
               owner={detail?.owner}
               content={detail?.content}
               time={detail?.time}
@@ -102,6 +103,7 @@ const Auth = () => {
                     category={el.category}
                     round={el.round}
                     teams={el.teams}
+                    season={el.season}
                     owner={owner}
                     time={el.createdAt}
                     open={() =>
@@ -113,6 +115,7 @@ const Auth = () => {
                         content: el.content,
                         round: el.round,
                         teams: el.teams,
+                        season: el.season,
                         time: el.createdAt,
                         image: el.image,
                       })

@@ -1,12 +1,24 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { BsHourglassSplit } from "react-icons/bs";
+import { FaCalendarAlt } from "react-icons/fa";
 import { RiTeamFill } from "react-icons/ri";
 import { IoIosTime } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
 import dayjs from "dayjs";
 
-const Article = ({ title, category, round, teams, owner, time, open, announcement, close }) => {
+const Article = ({
+  title,
+  category,
+  round,
+  teams,
+  season,
+  owner,
+  time,
+  open,
+  announcement,
+  close,
+}) => {
   const { lightMode } = useContext(AuthContext);
   const formattedDate = time ? dayjs(time).format("D.M.YYYY H:mm") : "";
 
@@ -34,9 +46,9 @@ const Article = ({ title, category, round, teams, owner, time, open, announcemen
           </p>
         </div>
       )}
-      {round && teams && (
+      {round && teams && season && (
         <div
-          className={`w-full flex flex-col mb-5 border-b ${lightMode ? "border-black/5" : "border-yellow-100/5"}`}>
+          className={`w-full relative flex flex-col mb-5 border-b ${lightMode ? "border-black/5" : "border-yellow-100/5"}`}>
           <div className="flex items-center [&>*]:mx-2 my-2">
             <BsHourglassSplit className="text-[1.2rem] xl:text-[1.8rem]" />
             <h4 className="text-[1rem] xl:text-[1.5rem] font-['Roboto_Mono',monospace]">
@@ -46,6 +58,12 @@ const Article = ({ title, category, round, teams, owner, time, open, announcemen
           <div className="flex items-center [&>*]:mx-2 my-2">
             <RiTeamFill className="text-[1.2rem] xl:text-[1.8rem]" />
             <h4 className="text-[1rem] xl:text-[1.5rem] font-['Roboto_Mono',monospace]">{teams}</h4>
+          </div>
+          <div className="flex absolute top-2 right-2 items-center [&>*]:mx-2 my-2">
+            <FaCalendarAlt className="text-[1.2rem] xl:text-[1.8rem]" />
+            <h4 className="text-[1rem] xl:text-[1.5rem] font-['Roboto_Mono',monospace]">
+              {season}
+            </h4>
           </div>
         </div>
       )}
