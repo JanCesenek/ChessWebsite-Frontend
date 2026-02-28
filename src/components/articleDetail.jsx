@@ -36,6 +36,15 @@ const ArticleDetail = ({
 
   const [fullScreen, setFullScreen] = useState(false);
 
+  const [visibleGames, setVisibleGames] = useState({}); // Track which chess games are visible
+
+  const toggleGameVisibility = (gameId) => {
+    setVisibleGames((prev) => ({
+      ...prev,
+      [gameId]: !prev[gameId],
+    }));
+  };
+
   const [newContent, setNewContent] = useState(content);
   const [newTitle, setNewTitle] = useState(title);
   const [newCategory, setNewCategory] = useState(category);
@@ -61,15 +70,32 @@ const ArticleDetail = ({
       if (domNode.name === "div" && domNode.attribs && domNode.attribs.class === "chess-game") {
         try {
           const game = JSON.parse(domNode.children[0].data);
+          const gameId = `${game.white}-${game.black}-${game.result}`;
           return (
-            <div className="flex justify-center my-4">
-              <ChessboardPreview
-                moves={game.moves}
-                white={game.white}
-                black={game.black}
-                result={game.result}
-                defaultMove={game?.defaultMove}
-              />
+            <div className="my-4">
+              <div
+                className={`flex justify-between [&>*]:mx-5 items-center p-4 rounded-md border-4 ${lightMode ? "border-black/20" : "border-yellow-100/20"}`}>
+                <span>
+                  <strong>{game.white}</strong> vs <strong>{game.black}</strong> - {game.result}
+                </span>
+                <Button
+                  click={() => toggleGameVisibility(gameId)}
+                  msg={visibleGames[gameId] ? "Skrýt partii" : "Zobrazit partii"}
+                  classes="shadow-none"
+                />
+              </div>
+
+              {visibleGames[gameId] && (
+                <div className="flex justify-center my-4">
+                  <ChessboardPreview
+                    moves={game.moves}
+                    white={game.white}
+                    black={game.black}
+                    result={game.result}
+                    defaultMove={game?.defaultMove}
+                  />
+                </div>
+              )}
             </div>
           );
         } catch {

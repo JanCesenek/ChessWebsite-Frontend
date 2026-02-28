@@ -352,7 +352,7 @@ const ChessboardLogic = ({ onInsert, onClose }) => {
             <option value="">---</option>
             <option value="1-0">1-0</option>
             <option value="0-1">0-1</option>
-            <option value="1/2">1/2</option>
+            <option value="1/2-1/2">1/2-1/2</option>
           </select>
         </div>
       </div>
