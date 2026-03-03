@@ -1,20 +1,35 @@
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 const Contact = () => {
   const { lightMode } = useContext(AuthContext);
 
   return (
-    <div className="min-h-screen">
-      <div className="flex justify-center items-center text-[3rem] font-['Roboto_Mono',monospace]">
-        <p
-          className={`p-5 rounded-md shadow-md border max-w-[80%] ${
-            lightMode
-              ? "bg-white/80 border-black/20 shadow-black/50"
-              : "bg-black/80 border-yellow-100/20 shadow-yellow-100/50"
-          }`}>
-          Obsah bude zanedlouho doplněn, stránka je ve fázi vývoje.
-        </p>
+    <div className="min-h-screen flex flex-col items-center">
+      <div
+        className={`flex flex-col items-center w-[min(120rem,80%)] p-10 rounded-lg shadow-lg my-20 [&>*]:my-20 ${
+          lightMode ? "bg-stone-300/90 shadow-black/50" : "bg-black/80 shadow-yellow-100/50"
+        }`}>
+        <div className="flex flex-col md:flex-row items-center">
+          <MapContainer
+            className="!w-[30rem] !h-[15rem] md:!w-[60rem] md:!h-[30rem] !text-black rounded-lg"
+            center={[49.9517543, 15.7912005]}
+            zoom={17}
+            scrollWheelZoom={false}>
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Marker position={[49.9517543, 15.7912005]}>
+              <Popup>Hrací místnost</Popup>
+            </Marker>
+          </MapContainer>
+          <div className="ml-10 text-[1.8rem] italic">
+            <p>Adresa hrací místnosti: Čs. Partyzánů 13, 537 01, Chrudim IV</p>
+          </div>
+        </div>
       </div>
     </div>
   );
