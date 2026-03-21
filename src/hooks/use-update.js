@@ -8,7 +8,7 @@ export function useUpdate(path) {
     const { data, error } = await supabase
       .from(path)
       .select("*")
-      .order(`${path === "/chess_articles" ? "createdAt" : "id"}`, { ascending: false });
+      .order(`${path === "/articles" ? "createdAt" : "id"}`, { ascending: false });
 
     if (error) {
       console.error("Error fetching data:", error);

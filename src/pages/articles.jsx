@@ -36,8 +36,8 @@ const Articles = () => {
 
   const [showStream, setShowStream] = useState(false);
 
-  const { data: aData, refetch: aRefetch, isLoading: aIsLoading } = useUpdate("/chess_articles");
-  const { data: uData, refetch: uRefetch, isLoading: uIsLoading } = useUpdate("/chess_users");
+  const { data: aData, refetch: aRefetch, isLoading: aIsLoading } = useUpdate("/articles");
+  const { data: uData, refetch: uRefetch, isLoading: uIsLoading } = useUpdate("/users");
 
   const { lightMode, curUser, notifyContext } = useContext(AuthContext);
 
