@@ -17,8 +17,8 @@ const Auth = () => {
 
   const { curUser, logOut, notifyContext } = useContext(AuthContext);
 
-  const { data: uData, refetch: uRefetch, isLoading: uLoading } = useUpdate("/chess_users");
-  const { data: aData, refetch: aRefetch, isLoading: aLoading } = useUpdate("/chess_articles");
+  const { data: uData, refetch: uRefetch, isLoading: uLoading } = useUpdate("/users");
+  const { data: aData, refetch: aRefetch, isLoading: aLoading } = useUpdate("/articles");
 
   const articleOwner = uData?.find((user) => user.username === curUser);
 
@@ -65,7 +65,7 @@ const Auth = () => {
   const loading = uLoading || aLoading;
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Data se načítají...</div>;
   }
 
   return (
