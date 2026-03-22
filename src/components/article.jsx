@@ -35,10 +35,10 @@ const Article = ({
       {announcement && (
         <div className="flex flex-col font-['Roboto_Mono',monospace] text-[3rem] p-10">
           <p>Příští živý přenos domácího utkání:</p>
-          <p>23/11 od 10:05</p>
+          <p>22/3 od 10:05</p>
           <p className="self-center mt-5 animate-pulse text-[4rem] underline">
             <a
-              href="https://lichess.org/broadcast/chrudim-svitavy/round-1/a5v09Nkf#boards"
+              href="https://lichess.org/broadcast/chrudim-policka/round-1/Fb8jmVIr#boards"
               target="_blank"
               rel="noopener noreferrer">
               Odkaz zde
