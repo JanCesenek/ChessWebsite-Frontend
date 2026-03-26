@@ -106,8 +106,8 @@ const Articles = () => {
       teams,
       season,
       image: image
-        ? `https://jwylvnqdlbtbmxsencfu.supabase.co/storage/v1/object/public/chess/articles/${uniqueID}`
-        : `https://jwylvnqdlbtbmxsencfu.supabase.co/storage/v1/object/public/chess/articles/chessAmbience.jpg`,
+        ? `https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/articles/${uniqueID}`
+        : `https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/articles/chessAmbience.jpg`,
       content: JSON.stringify(content),
     };
 
