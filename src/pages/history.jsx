@@ -14,112 +14,112 @@ const History = () => {
         <div
           className={`flex flex-col items-center [&>*]:my-5 text-[2rem] ${lightMode ? "text-stone-800" : "text-yellow-600"} italic`}>
           <a
-            href="/history/Kronika1896_1952.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika1896_1952.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 1896 - 1952
           </a>
           <a
-            href="/history/Kronika1953_1975.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika1953_1975.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 1953 - 1975
           </a>
           <a
-            href="/history/Kronika1977_1978.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika1977_1978.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 1977 - 1978
           </a>
           <a
-            href="/history/Kronika1978_1979.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika1978_1979.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 1978 - 1979
           </a>
           <a
-            href="/history/Kronika1979_1980.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika1979_1980.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 1979 - 1980
           </a>
           <a
-            href="/history/Kronika1980_1981.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika1980_1981.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 1980 - 1981
           </a>
           <a
-            href="/history/Kronika1982_1994.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika1982_1994.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 1982 - 1994
           </a>
           <a
-            href="/history/Kronika1999_2000.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika1999_2000.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 1999 - 2000
           </a>
           <a
-            href="/history/Kronika2002_2003.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika2002_2003.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 2002 - 2003
           </a>
           <a
-            href="/history/Kronika2003_2004.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika2003_2004.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 2003 - 2004
           </a>
           <a
-            href="/history/Kronika2004_2005.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika2004_2005.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 2004 - 2005
           </a>
           <a
-            href="/history/Kronika2005_2006.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika2005_2006.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 2005 - 2006
           </a>
           <a
-            href="/history/Kronika2006_2007.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika2006_2007.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 2006 - 2007
           </a>
           <a
-            href="/history/Kronika2014_2015.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika2014_2015.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 2014 - 2015
           </a>
           <a
-            href="/history/Kronika2015_2016.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika2015_2016.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
             Kronika 2015 - 2016
           </a>
           <a
-            href="/history/Kronika2016_2017.pdf"
+            href="https://mqqogxmyvaznzfdkedqj.supabase.co/storage/v1/object/public/chess/history/Kronika2016_2017.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:font-bold hover:scale-125">
