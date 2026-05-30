@@ -19,7 +19,7 @@ const MainNavigation = () => {
       } to-150% to-transparent py-10`}>
       <div className="w-full hidden md:flex justify-around items-center">
         <NavLink
-          to="/"
+          to="clanky"
           className={({ isActive }) =>
             isActive
               ? `underline ${lightMode ? "text-stone-800" : "text-yellow-200"} font-black`
@@ -35,6 +35,15 @@ const MainNavigation = () => {
               : "hover:font-black hover:scale-110"
           }>
           Soutěž
+        </NavLink>
+        <NavLink
+          to="dotace"
+          className={({ isActive }) =>
+            isActive
+              ? `underline ${lightMode ? "text-stone-800" : "text-yellow-200"} font-black`
+              : "hover:font-black hover:scale-110"
+          }>
+          Dotace
         </NavLink>
         <NavLink
           to="historie"
@@ -113,7 +122,7 @@ const MainNavigation = () => {
                     ? `underline ${lightMode ? "text-stone-800" : "text-yellow-200"} font-black`
                     : ""
                 }
-                to="/"
+                to="clanky"
                 onClick={() => setShowMenu(false)}>
                 Články
               </NavLink>
@@ -126,6 +135,15 @@ const MainNavigation = () => {
                 to="soutez"
                 onClick={() => setShowMenu(false)}>
                 Soutěž
+              </NavLink>
+              <NavLink
+                to="dotace"
+                className={({ isActive }) =>
+                  isActive
+                    ? `underline ${lightMode ? "text-stone-800" : "text-yellow-200"} font-black`
+                    : "hover:font-black hover:scale-110"
+                }>
+                Dotace
               </NavLink>
               <NavLink
                 className={({ isActive }) =>

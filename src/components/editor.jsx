@@ -76,7 +76,6 @@ export const editorExtensions = [
   Image.configure({
     HTMLAttributes: {
       class: "image-limit",
-      onError: "this.style.display='none';", // Hide the image if it fails to load
     },
     inline: true,
     allowBase64: true,

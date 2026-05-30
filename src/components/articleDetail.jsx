@@ -67,6 +67,21 @@ const ArticleDetail = ({
   // Custom parser to replace chess game blocks
   const options = {
     replace: (domNode) => {
+      if (domNode.name === "img" && domNode.attribs) {
+        const { src, alt = "", class: className = "" } = domNode.attribs;
+
+        return (
+          <img
+            src={src}
+            alt={alt}
+            className={className}
+            onError={(event) => {
+              event.currentTarget.style.display = "none";
+            }}
+          />
+        );
+      }
+
       if (domNode.name === "div" && domNode.attribs && domNode.attribs.class === "chess-game") {
         try {
           const game = JSON.parse(domNode.children[0].data);

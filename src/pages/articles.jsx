@@ -1,4 +1,5 @@
 import { useRef, useState, useContext, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { GiClick } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
@@ -44,6 +45,29 @@ const Articles = () => {
   const userData = uData?.find((user) => user.username === curUser);
   const userID = userData?.id;
 
+  const navigate = useNavigate();
+
+  const { id } = useParams();
+  const findArticleMatch = aData?.find((article) => article.id === +id);
+
+  useEffect(() => {
+    if (id && findArticleMatch) {
+      const ownerFind = uData?.find((user) => user.id === findArticleMatch.userID);
+      const owner = `${ownerFind?.firstName} ${ownerFind?.lastName}`;
+      setDetail({
+        id: findArticleMatch.id,
+        title: findArticleMatch.title,
+        owner,
+        content: findArticleMatch.content,
+        round: findArticleMatch.round,
+        teams: findArticleMatch.teams,
+        season: findArticleMatch.season,
+        time: findArticleMatch.createdAt,
+        image: findArticleMatch.image,
+      });
+    }
+  }, [id, findArticleMatch, uData]);
+
   useEffect(() => {
     const refetchData = async () => {
       await aRefetch();
@@ -67,6 +91,26 @@ const Articles = () => {
     setFilterRound("");
     setFilterTeams("");
     setFilterSeason("");
+  };
+
+  const openArticle = (el, owner) => {
+    setDetail({
+      id: el.id,
+      title: el.title,
+      owner,
+      content: el.content,
+      round: el.round,
+      teams: el.teams,
+      season: el.season,
+      time: el.createdAt,
+      image: el.image,
+    });
+    navigate(`/clanky/${el.id}`);
+  };
+
+  const closeArticle = () => {
+    setDetail(false);
+    navigate("/clanky");
   };
 
   const createArticle = async () => {
@@ -398,7 +442,7 @@ const Articles = () => {
       )}
       {!addArticle &&
         !showStream &&
-        (detail ? (
+        (id && findArticleMatch ? (
           <div className="flex justify-center w-full my-20">
             <ArticleDetail
               id={detail?.id}
@@ -410,7 +454,7 @@ const Articles = () => {
               content={detail?.content}
               image={detail?.image}
               season={detail?.season}
-              back={() => setDetail(false)}
+              back={closeArticle}
             />
           </div>
         ) : aData?.length > 0 ? (
@@ -429,19 +473,7 @@ const Articles = () => {
                   season={el.season}
                   owner={owner}
                   time={el.createdAt}
-                  open={() =>
-                    setDetail({
-                      id: el.id,
-                      title: el.title,
-                      owner,
-                      content: el.content,
-                      round: el.round,
-                      teams: el.teams,
-                      season: el.season,
-                      time: el.createdAt,
-                      image: el.image,
-                    })
-                  }
+                  open={() => openArticle(el, owner)}
                 />
               );
               if (filter) {
