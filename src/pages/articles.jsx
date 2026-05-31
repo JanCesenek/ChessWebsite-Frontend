@@ -442,7 +442,7 @@ const Articles = () => {
       )}
       {!addArticle &&
         !showStream &&
-        (id && findArticleMatch ? (
+        (detail ? (
           <div className="flex justify-center w-full my-20">
             <ArticleDetail
               id={detail?.id}
