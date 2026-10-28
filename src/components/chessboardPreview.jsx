@@ -24,14 +24,20 @@ const ChessboardPreview = ({ moves, white, black, result, defaultMove = 0 }) => 
   const annotationContainerRef = useRef(null); // Ref for the annotation scrollbar
 
   useEffect(() => {
-    if (annotationContainerRef.current) {
-      const ref = moveRefs.current[currentMove];
-      if (ref) {
-        const container = annotationContainerRef.current;
-        container.scrollTop = ref.offsetTop - container.offsetTop;
-      }
+    if (!annotationContainerRef.current) return;
+
+    const mainMoveIdx = currentMove - 1;
+    const ref = activeVariation
+      ? moveRefs.current[`var-${activeVariation.parentIdx}-${variationMoveIdx - 1}`]
+      : mainMoveIdx >= 0
+        ? moveRefs.current[mainMoveIdx]
+        : null;
+
+    if (ref) {
+      const container = annotationContainerRef.current;
+      container.scrollTop = ref.offsetTop - container.offsetTop;
     }
-  }, [currentMove, variationMoveIdx, variationMode]);
+  }, [currentMove, variationMoveIdx, activeVariation, variationMode]);
 
   useEffect(() => {
     setCurrentMove(defaultMove);
@@ -222,7 +228,7 @@ const ChessboardPreview = ({ moves, white, black, result, defaultMove = 0 }) => 
                     ? `${lightMode ? "bg-stone-800 text-white" : "bg-yellow-300 text-black"}`
                     : `${lightMode ? "bg-stone-600 text-white" : "bg-gray-800"}`
                 }`}
-                ref={(el) => (moveRefs.current[idx * 2 + 1] = el)}
+                ref={(el) => (moveRefs.current[idx * 2] = el)}
                 onClick={() => {
                   setCurrentMove(idx * 2 + 1);
                   setWhiteTurn(false);
@@ -294,7 +300,7 @@ const ChessboardPreview = ({ moves, white, black, result, defaultMove = 0 }) => 
                         ? `${lightMode ? "bg-stone-800 text-white" : "bg-yellow-300 text-black"}`
                         : `${lightMode ? "bg-stone-600 text-white" : "bg-gray-800"}`
                     }`}
-                    ref={(el) => (moveRefs.current[idx * 2 + 2] = el)}
+                    ref={(el) => (moveRefs.current[idx * 2 + 1] = el)}
                     onClick={() => {
                       setCurrentMove(idx * 2 + 2);
                       setWhiteTurn(true);

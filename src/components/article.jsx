@@ -1,10 +1,12 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { BsHourglassSplit } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
 import { RiTeamFill } from "react-icons/ri";
 import { IoIosTime } from "react-icons/io";
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdEditSquare } from "react-icons/md";
+import { api } from "../core/api";
+import Button from "./button";
 import dayjs from "dayjs";
 
 const Article = ({
@@ -18,9 +20,43 @@ const Article = ({
   open,
   announcement,
   close,
+  date,
+  url,
+  edit,
+  setEdit,
+  auth,
+  refetch,
 }) => {
-  const { lightMode } = useContext(AuthContext);
+  const { lightMode, notifyContext } = useContext(AuthContext);
   const formattedDate = time ? dayjs(time).format("D.M.YYYY H:mm") : "";
+
+  const [newDate, setNewDate] = useState(date);
+  const [newUrl, setNewUrl] = useState(url);
+  const [submitting, setSubmitting] = useState(false);
+
+  const updateLink = async () => {
+    setSubmitting(true);
+
+    await api
+      .patch("/link/1", { date: newDate, url: newUrl })
+      .then(async () => {
+        await refetch();
+        notifyContext("Link updated successfully!", "success");
+      })
+      .catch((err) => {
+        console.log(`Patch req - ${err}`);
+        notifyContext("Failed to update link!", "error");
+      })
+      .finally(() => {
+        setSubmitting(false);
+        setEdit();
+      });
+  };
+
+  const hardClose = () => {
+    close();
+    edit && setEdit();
+  };
 
   return (
     <div
@@ -30,20 +66,81 @@ const Article = ({
         lightMode
           ? "from-stone-500/80 via-white/80 to-stone-500/80 shadow-black/50 hover:shadow-black text-black"
           : "from-yellow-100/30 via-black/80 to-yellow-100/30 shadow-yellow-100/50 hover:shadow-yellow-100"
-      }`}
+      } ${submitting && "pointer-events-none opacity-50"}`}
       onClick={open}>
       {announcement && (
         <div className="flex flex-col font-['Roboto_Mono',monospace] text-[3rem] p-10">
           <p>Příští živý přenos domácího utkání:</p>
-          <p>22/3 od 10:05</p>
-          <p className="self-center mt-5 animate-pulse text-[4rem] underline">
-            <a
-              href="https://lichess.org/broadcast/chrudim-policka/round-1/Fb8jmVIr#boards"
-              target="_blank"
-              rel="noopener noreferrer">
-              Odkaz zde
-            </a>
-          </p>
+          {edit ? (
+            <>
+              <div className="flex text-[2rem] mt-10 mb-2">
+                <label htmlFor="date" className="min-w-[15rem]">
+                  Datum a čas:
+                </label>
+                <input
+                  type="datetime-local"
+                  name="date"
+                  id="date"
+                  className={`bg-transparent border shadow-md focus:outline-none rounded-md ${
+                    lightMode
+                      ? "border-black/20 shadow-black/50 focus:shadow-black"
+                      : " border-yellow-100/20 shadow-yellow-100/50 focus:shadow-yellow-100"
+                  }`}
+                  value={newDate}
+                  onChange={(e) => setNewDate(e.target.value)}
+                />
+              </div>
+              <div className="flex text-[2rem] mb-10 mt-2">
+                <label htmlFor="url" className="min-w-[15rem]">
+                  URL:
+                </label>
+                <input
+                  type="text"
+                  name="url"
+                  id="url"
+                  className={`bg-transparent border shadow-md focus:outline-none rounded-md ${
+                    lightMode
+                      ? "border-black/20 shadow-black/50 focus:shadow-black"
+                      : " border-yellow-100/20 shadow-yellow-100/50 focus:shadow-yellow-100"
+                  }`}
+                  value={newUrl}
+                  onChange={(e) => setNewUrl(e.target.value)}
+                />
+              </div>
+              <Button
+                msg={
+                  submitting ? (
+                    <div className="flex items-center [&>*]:mx-2">
+                      <div>Ukládám...</div>
+                      <BsHourglassSplit className="animate-spin" />
+                    </div>
+                  ) : (
+                    "Uložit"
+                  )
+                }
+                classes="self-center"
+                click={updateLink}
+                disabled={!(date && url)}
+              />
+              <Button msg="Zrušit" classes="self-center mt-5" click={setEdit} />
+            </>
+          ) : (
+            <>
+              <p>
+                {dayjs(date).format("D.M.YYYY H:mm")}{" "}
+                {auth && (
+                  <span>
+                    <MdEditSquare className="hover:cursor-pointer ml-2" onClick={setEdit} />
+                  </span>
+                )}
+              </p>
+              <p className="self-center mt-5 animate-pulse text-[4rem] underline">
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  Odkaz zde
+                </a>
+              </p>
+            </>
+          )}
         </div>
       )}
       {round && teams && season && (
@@ -91,7 +188,10 @@ const Article = ({
         </span>
       )}
       {announcement && (
-        <MdCancel className="absolute top-5 right-5 cursor-pointer text-[3rem]" onClick={close} />
+        <MdCancel
+          className="absolute top-5 right-5 cursor-pointer text-[3rem]"
+          onClick={hardClose}
+        />
       )}
     </div>
   );

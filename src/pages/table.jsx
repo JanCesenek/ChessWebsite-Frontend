@@ -35,7 +35,7 @@ const Table = () => {
   useEffect(() => {
     if (tableRef1.current) {
       const homeTeam = Array.from(tableRef1.current.querySelectorAll("a")).find((a) =>
-        a.textContent.includes("Chrudim")
+        a.textContent.includes("Chrudim"),
       );
       homeTeam?.classList.add(classes.homeTeam);
       const anchors = tableRef1.current.querySelectorAll("a");
@@ -43,7 +43,7 @@ const Table = () => {
     }
     if (tableRef2.current) {
       const homeTeam = Array.from(tableRef2.current.querySelectorAll("a")).find((a) =>
-        a.textContent.includes("Chrudim")
+        a.textContent.includes("Chrudim"),
       );
       homeTeam?.classList.add(classes.homeTeam);
       const anchors = tableRef2.current.querySelectorAll("a");
@@ -51,7 +51,7 @@ const Table = () => {
     }
     if (tableRef3.current) {
       const homeTeam = Array.from(tableRef3.current.querySelectorAll("a")).find((a) =>
-        a.textContent.includes("Chrudim")
+        a.textContent.includes("Chrudim"),
       );
       homeTeam?.classList.add(classes.homeTeam);
       const anchors = tableRef3.current.querySelectorAll("a");
@@ -70,7 +70,7 @@ const Table = () => {
             className={`text-[3rem] xl:text-[4rem] font-bold mb-10 underline hover:scale-110 ${
               lightMode ? "hover:text-black" : "hover:text-yellow-200"
             }`}>
-            <a href="https://www.chess.cz/soutez/3291" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.chess.cz/soutez/3446" target="_blank" rel="noopener noreferrer">
               Krajský přebor I
             </a>
           </h2>
@@ -91,7 +91,7 @@ const Table = () => {
             className={`text-[3rem] xl:text-[4rem] font-bold mb-10 underline hover:scale-110 ${
               lightMode ? "hover:text-black" : "hover:text-yellow-200"
             }`}>
-            <a href="https://www.chess.cz/soutez/3293" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.chess.cz/soutez/3448" target="_blank" rel="noopener noreferrer">
               Krajský přebor II západ
             </a>
           </h2>
@@ -112,7 +112,7 @@ const Table = () => {
             className={`text-[3rem] xl:text-[4rem] font-bold mb-10 underline hover:scale-110 ${
               lightMode ? "hover:text-black" : "hover:text-yellow-200"
             }`}>
-            <a href="https://www.chess.cz/soutez/3295" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.chess.cz/soutez/3451" target="_blank" rel="noopener noreferrer">
               Krajská soutěž západ
             </a>
           </h2>

@@ -36,14 +36,22 @@ const Articles = () => {
   const [detail, setDetail] = useState(false);
 
   const [showStream, setShowStream] = useState(false);
+  const [editStream, setEditStream] = useState(false);
+
+  const [date, setDate] = useState("");
+  const [url, setUrl] = useState("");
 
   const { data: aData, refetch: aRefetch, isLoading: aIsLoading } = useUpdate("/articles");
   const { data: uData, refetch: uRefetch, isLoading: uIsLoading } = useUpdate("/users");
+  const { data: lData, refetch: lRefetch, isLoading: lIsLoading } = useUpdate("/link");
 
   const { lightMode, curUser, notifyContext } = useContext(AuthContext);
 
   const userData = uData?.find((user) => user.username === curUser);
   const userID = userData?.id;
+
+  const linkData = lData?.find((link) => link.id === 1);
+  console.log(linkData);
 
   const navigate = useNavigate();
 
@@ -52,18 +60,18 @@ const Articles = () => {
 
   useEffect(() => {
     if (id && findArticleMatch) {
-      const ownerFind = uData?.find((user) => user.id === findArticleMatch.userID);
+      const ownerFind = uData?.find((user) => user.id === findArticleMatch?.userID);
       const owner = `${ownerFind?.firstName} ${ownerFind?.lastName}`;
       setDetail({
-        id: findArticleMatch.id,
-        title: findArticleMatch.title,
+        id: findArticleMatch?.id,
+        title: findArticleMatch?.title,
         owner,
-        content: findArticleMatch.content,
-        round: findArticleMatch.round,
-        teams: findArticleMatch.teams,
-        season: findArticleMatch.season,
-        time: findArticleMatch.createdAt,
-        image: findArticleMatch.image,
+        content: findArticleMatch?.content,
+        round: findArticleMatch?.round,
+        teams: findArticleMatch?.teams,
+        season: findArticleMatch?.season,
+        time: findArticleMatch?.createdAt,
+        image: findArticleMatch?.image,
       });
     }
   }, [id, findArticleMatch, uData]);
@@ -72,9 +80,12 @@ const Articles = () => {
     const refetchData = async () => {
       await aRefetch();
       await uRefetch();
+      await lRefetch();
     };
     refetchData();
-  }, []);
+    setDate(linkData?.date);
+    setUrl(linkData?.url);
+  }, [date, url, linkData]);
 
   const resetData = () => {
     setTitle("");
@@ -175,13 +186,33 @@ const Articles = () => {
 
   const validForm = title && content;
 
+  const loading = aIsLoading || uIsLoading || lIsLoading;
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center text-[3rem] font-['Roboto_Mono',monospace] my-20">
+        <p>Články se načítají...</p>
+        <FaRegHourglassHalf className="animate-spin ml-5" />
+      </div>
+    );
+  }
+
   return (
     <div className={`flex flex-col items-center ${submitting && "pointer-events-none opacity-70"}`}>
       {!addArticle &&
         !detail &&
         (showStream ? (
           <div className="flex flex-col items-center w-full my-10">
-            <Article announcement close={() => setShowStream(false)} />
+            <Article
+              announcement
+              close={() => setShowStream(false)}
+              date={date}
+              url={url}
+              edit={editStream}
+              setEdit={() => setEditStream(!editStream)}
+              auth={userData}
+              refetch={lRefetch}
+            />
           </div>
         ) : (
           <div
