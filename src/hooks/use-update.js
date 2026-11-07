@@ -5,10 +5,12 @@ export function useUpdate(path) {
   const fetch = async () => {
     console.log("Fetching data from path:", path);
 
+    const orderColumn = path === "/articles" ? "createdAt" : path === "/link" ? "date" : "id";
+
     const { data, error } = await supabase
       .from(path)
       .select("*")
-      .order(`${path === "/articles" ? "createdAt" : "id"}`, { ascending: false });
+      .order(orderColumn, { ascending: false });
 
     if (error) {
       console.error("Error fetching data:", error);

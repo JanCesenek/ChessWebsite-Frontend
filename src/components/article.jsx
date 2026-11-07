@@ -220,7 +220,7 @@ const Article = ({
                 return (
                   <a key={id} href={url} target="_blank" rel="noopener noreferrer">
                     <div
-                      className={`flex flex-col my-5 border p-5 rounded-lg shadow-md ${lightMode ? "border-black/20 shadow-black/50 hover:bg-white" : "border-yellow-100/20 shadow-yellow-100/50 hover:bg-black"}`}>
+                      className={`flex flex-col my-5 border p-5 rounded-lg shadow-md ${lightMode ? "border-black/20 shadow-black/50 hover:bg-white" : "border-yellow-100/20 shadow-yellow-100/50 hover:bg-yellow-800"}`}>
                       <p>{dayjs(date).format("D.M.YYYY H:mm")}</p>
                       <p className="font-bold">{name}</p>
                     </div>
