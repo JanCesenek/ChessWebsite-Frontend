@@ -43,6 +43,19 @@ const Article = ({
   const updateLink = async () => {
     setSubmitting(true);
 
+    if (saveNew) {
+      await api
+        .post("/link", { date: newDate, url: newUrl, name: newName })
+        .then(async () => {
+          await refetch();
+          notifyContext("Link saved to archive successfully!", "success");
+        })
+        .catch((err) => {
+          console.log(`Post req - ${err}`);
+          notifyContext("Failed to save link to archive!", "error");
+        });
+    }
+
     await api
       .patch("/link/1", { date: newDate, url: newUrl, name: newName })
       .then(async () => {
@@ -54,28 +67,9 @@ const Article = ({
         notifyContext("Failed to update link!", "error");
       })
       .finally(() => {
-        if (!saveNew) {
-          setSubmitting(false);
-          setEdit();
-        }
+        setSubmitting(false);
+        setEdit();
       });
-
-    if (saveNew) {
-      await api
-        .post("/link", { date: newDate, url: newUrl, name: newName })
-        .then(async () => {
-          await refetch();
-          notifyContext("Link saved to archive successfully!", "success");
-        })
-        .catch((err) => {
-          console.log(`Post req - ${err}`);
-          notifyContext("Failed to save link to archive!", "error");
-        })
-        .finally(() => {
-          setSubmitting(false);
-          setEdit();
-        });
-    }
   };
 
   const hardClose = () => {
@@ -153,13 +147,13 @@ const Article = ({
                 />
               </div>
               <div className="flex items-center text-[2rem] mb-10 mt-2">
-                <label htmlFor="name" className="min-w-[15rem]">
+                <label htmlFor="saveNew" className="min-w-[15rem]">
                   Přidat do archivu:
                 </label>
                 <input
                   type="checkbox"
-                  name="name"
-                  id="name"
+                  name="saveNew"
+                  id="saveNew"
                   className={`bg-transparent focus:outline-none rounded-md ml-5`}
                   value={saveNew}
                   onChange={(e) => setSaveNew(e.target.checked)}
@@ -187,7 +181,10 @@ const Article = ({
               <div className="flex flex-col">
                 <p>{dayjs(date).format("D.M.YYYY H:mm")}</p>
                 <a href={url} target="_blank" rel="noopener noreferrer">
-                  <p className="font-bold">{name}</p>
+                  <p
+                    className={`font-bold ${lightMode ? "hover:text-red-600" : "hover:text-amber-600"}`}>
+                    {name}
+                  </p>
                 </a>
                 {auth && (
                   <span>
@@ -219,16 +216,17 @@ const Article = ({
           {matchList &&
             linkData?.map((link) => {
               const { id, date, url, name } = link;
-              return (
-                <div
-                  key={id}
-                  className={`flex flex-col my-5 border p-5 rounded-lg shadow-md ${lightMode ? "border-black/20 shadow-black/50 hover:bg-stone-300" : "border-yellow-100/20 shadow-yellow-100/50 hover:bg-black"}`}>
-                  <p>{dayjs(date).format("D.M.YYYY H:mm")}</p>
-                  <a href={url} target="_blank" rel="noopener noreferrer">
-                    <p className="font-bold hover:underline">{name}</p>
+              if (id !== 1) {
+                return (
+                  <a key={id} href={url} target="_blank" rel="noopener noreferrer">
+                    <div
+                      className={`flex flex-col my-5 border p-5 rounded-lg shadow-md ${lightMode ? "border-black/20 shadow-black/50 hover:bg-white" : "border-yellow-100/20 shadow-yellow-100/50 hover:bg-black"}`}>
+                      <p>{dayjs(date).format("D.M.YYYY H:mm")}</p>
+                      <p className="font-bold">{name}</p>
+                    </div>
                   </a>
-                </div>
-              );
+                );
+              }
             })}
         </div>
       )}

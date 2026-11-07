@@ -214,7 +214,7 @@ const Articles = () => {
               setEdit={() => setEditStream(!editStream)}
               auth={userData}
               refetch={lRefetch}
-              linkData={[linkData]}
+              linkData={lData}
             />
           </div>
         ) : (
