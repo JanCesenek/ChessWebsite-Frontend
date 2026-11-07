@@ -40,6 +40,7 @@ const Articles = () => {
 
   const [date, setDate] = useState("");
   const [url, setUrl] = useState("");
+  const [name, setName] = useState("");
 
   const { data: aData, refetch: aRefetch, isLoading: aIsLoading } = useUpdate("/articles");
   const { data: uData, refetch: uRefetch, isLoading: uIsLoading } = useUpdate("/users");
@@ -51,7 +52,6 @@ const Articles = () => {
   const userID = userData?.id;
 
   const linkData = lData?.find((link) => link.id === 1);
-  console.log(linkData);
 
   const navigate = useNavigate();
 
@@ -85,7 +85,8 @@ const Articles = () => {
     refetchData();
     setDate(linkData?.date);
     setUrl(linkData?.url);
-  }, [date, url, linkData]);
+    setName(linkData?.name);
+  }, [date, url, name, linkData]);
 
   const resetData = () => {
     setTitle("");
@@ -208,10 +209,12 @@ const Articles = () => {
               close={() => setShowStream(false)}
               date={date}
               url={url}
+              name={name}
               edit={editStream}
               setEdit={() => setEditStream(!editStream)}
               auth={userData}
               refetch={lRefetch}
+              linkData={[linkData]}
             />
           </div>
         ) : (
@@ -219,7 +222,7 @@ const Articles = () => {
             className={`flex items-center mb-28 p-5 shadow-md [&>*]:mx-2 ${
               lightMode ? "bg-stone-300/90 shadow-black" : "bg-black shadow-yellow-100"
             }`}>
-            <p className="text-[1.5rem]">Živý přenos domácích utkání zde:</p>
+            <p className="text-[1.5rem]">Přenosy domácích utkání zde:</p>
             <GiClick
               className="hover:cursor-pointer animate-pulse text-[4rem]"
               onClick={() => setShowStream(true)}

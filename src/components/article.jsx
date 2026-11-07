@@ -3,7 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import { BsHourglassSplit } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
 import { RiTeamFill } from "react-icons/ri";
-import { IoIosTime } from "react-icons/io";
+import { IoIosTime, IoIosArrowDropdownCircle, IoIosArrowDropupCircle } from "react-icons/io";
 import { MdCancel, MdEditSquare } from "react-icons/md";
 import { api } from "../core/api";
 import Button from "./button";
@@ -22,23 +22,29 @@ const Article = ({
   close,
   date,
   url,
+  name,
   edit,
   setEdit,
   auth,
   refetch,
+  linkData,
 }) => {
   const { lightMode, notifyContext } = useContext(AuthContext);
-  const formattedDate = time ? dayjs(time).format("D.M.YYYY H:mm") : "";
+  const formattedDate = time && dayjs(time).format("D.M.YYYY H:mm");
 
   const [newDate, setNewDate] = useState(date);
   const [newUrl, setNewUrl] = useState(url);
+  const [newName, setNewName] = useState(name);
+  const [saveNew, setSaveNew] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  const [matchList, setMatchList] = useState(false);
 
   const updateLink = async () => {
     setSubmitting(true);
 
     await api
-      .patch("/link/1", { date: newDate, url: newUrl })
+      .patch("/link/1", { date: newDate, url: newUrl, name: newName })
       .then(async () => {
         await refetch();
         notifyContext("Link updated successfully!", "success");
@@ -48,9 +54,28 @@ const Article = ({
         notifyContext("Failed to update link!", "error");
       })
       .finally(() => {
-        setSubmitting(false);
-        setEdit();
+        if (!saveNew) {
+          setSubmitting(false);
+          setEdit();
+        }
       });
+
+    if (saveNew) {
+      await api
+        .post("/link", { date: newDate, url: newUrl, name: newName })
+        .then(async () => {
+          await refetch();
+          notifyContext("Link saved to archive successfully!", "success");
+        })
+        .catch((err) => {
+          console.log(`Post req - ${err}`);
+          notifyContext("Failed to save link to archive!", "error");
+        })
+        .finally(() => {
+          setSubmitting(false);
+          setEdit();
+        });
+    }
   };
 
   const hardClose = () => {
@@ -68,9 +93,12 @@ const Article = ({
           : "from-yellow-100/30 via-black/80 to-yellow-100/30 shadow-yellow-100/50 hover:shadow-yellow-100"
       } ${submitting && "pointer-events-none opacity-50"}`}
       onClick={open}>
+      {/* Single link */}
       {announcement && (
         <div className="flex flex-col font-['Roboto_Mono',monospace] text-[3rem] p-10">
-          <p>Příští živý přenos domácího utkání:</p>
+          <p className="font-bold underline mb-5">
+            <span>Příští živý přenos domácího utkání:</span>
+          </p>
           {edit ? (
             <>
               <div className="flex text-[2rem] mt-10 mb-2">
@@ -84,13 +112,13 @@ const Article = ({
                   className={`bg-transparent border shadow-md focus:outline-none rounded-md ${
                     lightMode
                       ? "border-black/20 shadow-black/50 focus:shadow-black"
-                      : " border-yellow-100/20 shadow-yellow-100/50 focus:shadow-yellow-100"
+                      : "border-yellow-100/20 shadow-yellow-100/50 focus:shadow-yellow-100"
                   }`}
                   value={newDate}
                   onChange={(e) => setNewDate(e.target.value)}
                 />
               </div>
-              <div className="flex text-[2rem] mb-10 mt-2">
+              <div className="flex text-[2rem] my-2">
                 <label htmlFor="url" className="min-w-[15rem]">
                   URL:
                 </label>
@@ -101,10 +129,40 @@ const Article = ({
                   className={`bg-transparent border shadow-md focus:outline-none rounded-md ${
                     lightMode
                       ? "border-black/20 shadow-black/50 focus:shadow-black"
-                      : " border-yellow-100/20 shadow-yellow-100/50 focus:shadow-yellow-100"
+                      : "border-yellow-100/20 shadow-yellow-100/50 focus:shadow-yellow-100"
                   }`}
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
+                />
+              </div>
+              <div className="flex text-[2rem] my-2">
+                <label htmlFor="name" className="min-w-[15rem]">
+                  Jméno:
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  className={`bg-transparent border shadow-md focus:outline-none rounded-md ${
+                    lightMode
+                      ? "border-black/20 shadow-black/50 focus:shadow-black"
+                      : "border-yellow-100/20 shadow-yellow-100/50 focus:shadow-yellow-100"
+                  }`}
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                />
+              </div>
+              <div className="flex items-center text-[2rem] mb-10 mt-2">
+                <label htmlFor="name" className="min-w-[15rem]">
+                  Přidat do archivu:
+                </label>
+                <input
+                  type="checkbox"
+                  name="name"
+                  id="name"
+                  className={`bg-transparent focus:outline-none rounded-md ml-5`}
+                  value={saveNew}
+                  onChange={(e) => setSaveNew(e.target.checked)}
                 />
               </div>
               <Button
@@ -120,27 +178,58 @@ const Article = ({
                 }
                 classes="self-center"
                 click={updateLink}
-                disabled={!(date && url)}
+                disabled={!(date && url && name) || submitting}
               />
               <Button msg="Zrušit" classes="self-center mt-5" click={setEdit} />
             </>
           ) : (
             <>
-              <p>
-                {dayjs(date).format("D.M.YYYY H:mm")}{" "}
+              <div className="flex flex-col">
+                <p>{dayjs(date).format("D.M.YYYY H:mm")}</p>
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  <p className="font-bold">{name}</p>
+                </a>
                 {auth && (
                   <span>
                     <MdEditSquare className="hover:cursor-pointer ml-2" onClick={setEdit} />
                   </span>
                 )}
-              </p>
-              <p className="self-center mt-5 animate-pulse text-[4rem] underline">
-                <a href={url} target="_blank" rel="noopener noreferrer">
-                  Odkaz zde
-                </a>
-              </p>
+              </div>
             </>
           )}
+        </div>
+      )}
+      {/* Multiple links - list of live broadcasts */}
+      {announcement && (
+        <div className="flex flex-col text-[2rem] mt-20">
+          <p className="flex items-center font-black underline text-[4rem] [&>*]:mx-2">
+            <span>Archiv domácích zápasů:</span>
+            {matchList ? (
+              <IoIosArrowDropupCircle
+                className="animate-pulse hover:cursor-pointer"
+                onClick={() => setMatchList(false)}
+              />
+            ) : (
+              <IoIosArrowDropdownCircle
+                className="animate-pulse hover:cursor-pointer"
+                onClick={() => setMatchList(!matchList)}
+              />
+            )}
+          </p>
+          {matchList &&
+            linkData?.map((link) => {
+              const { id, date, url, name } = link;
+              return (
+                <div
+                  key={id}
+                  className={`flex flex-col my-5 border p-5 rounded-lg shadow-md ${lightMode ? "border-black/20 shadow-black/50 hover:bg-stone-300" : "border-yellow-100/20 shadow-yellow-100/50 hover:bg-black"}`}>
+                  <p>{dayjs(date).format("D.M.YYYY H:mm")}</p>
+                  <a href={url} target="_blank" rel="noopener noreferrer">
+                    <p className="font-bold hover:underline">{name}</p>
+                  </a>
+                </div>
+              );
+            })}
         </div>
       )}
       {round && teams && season && (
